@@ -5,9 +5,10 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
 //Authにより組み込まれる認証機能では、Authenticatableを継承したModelクラスが必要
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use Notifiable;
 
@@ -38,17 +39,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    //belongingとuserは1対多の関係
-    public function belonging(){
-
-        return $this->belongsTo('App\Belonging');
-    }
-    
-    //userとactivityは１対多の関係
-    public function activuties(){
+    //adminとactivityは１対多の関係
+    public function activities(){
 
         return $this->hasMany('App\Activity');
     }    
+       
     
     
     //validation設定。guardをかけてModelで値を用意しなくても保存できるよう保護する

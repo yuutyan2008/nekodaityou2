@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->comment('パスワード');
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
-            $table->integer('belonging_id')->comment('所属ID');
+            $table->integer('belonging_id')->comment('所属ID')->nullable();
 
         });
     }
@@ -35,6 +35,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('users');
+        Schema::dropIfExists('users');
     }
 }
