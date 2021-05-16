@@ -1,8 +1,10 @@
 <?php
-
+//topページの活動一覧
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller
 {
@@ -25,4 +27,10 @@ class HomeController extends Controller
     {
         return view('home');
     }
+    
+      public function add()
+  {
+      return view('home');
+  }
+
 }

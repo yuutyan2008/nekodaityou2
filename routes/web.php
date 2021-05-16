@@ -19,6 +19,10 @@ Auth::routes();
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () { return redirect('/home'); });
+
+
+
+
  
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +32,7 @@ Route::get('/', function () { return redirect('/home'); });
 Route::group(['middleware' => 'auth:user'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
 });
+
  
 /*
 |--------------------------------------------------------------------------
