@@ -23,8 +23,12 @@ class CreateUsersTable extends Migration
             $table->string('password')->comment('パスワード');
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
-            $table->integer('belonging_id')->comment('所属ID')->nullable();
+            $table->unsignedBigInteger('belonging_id')->comment('所属ID');
+            $table->unsignedBigInteger('activity_id')->comment('活動ID');
 
+            // //外部キー制約
+            // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
+            // $table->foreign('belonging_id')->references('id')->on('belongings')->onDelete('cascade');
         });
     }
 

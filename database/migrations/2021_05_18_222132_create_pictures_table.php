@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBelongingsTable extends Migration
+class CreatePicturesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateBelongingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('belongings', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('所属ID');
-            $table->string('belongingname')->comment('所属名');
+        Schema::create('pictures', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('image_path')->nullable()->comment('画像');  // 画像のパスを保存するカラム
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateBelongingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('belongings');
+        Schema::dropIfExists('pictures');
     }
 }

@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cats extends Model
 {
+    
+    //入力フォームに入力できるように設定
+    protected $fillable = ['name','tail_id','hair_id', 
+                            'gender_id', 'area_id','attention_id', 'remarks'];
+                        
+
 
     //tailとcatは1対多の関係
     public function tail(){
@@ -26,15 +32,7 @@ class Cats extends Model
     }
     
     //areaとcatは1対多の関係
-<<<<<<< HEAD
-<<<<<<< HEAD
     public function area(){
-=======
-    public function aarea(){
->>>>>>> origin/master
-=======
-    public function aarea(){
->>>>>>> origin/master
 
         return $this->belongsTo('App\Area');
     } 
@@ -43,8 +41,6 @@ class Cats extends Model
     public function attention(){
 
         return $this->belongsTo('App\Attention');
-<<<<<<< HEAD
-<<<<<<< HEAD
     }    
     
     /**
@@ -54,10 +50,6 @@ class Cats extends Model
     {
         return $this->belongsToMany('App\Attention');
     }    
-=======
-    }     
->>>>>>> origin/master
-=======
-    }     
->>>>>>> origin/master
+    
+
 }
