@@ -46,7 +46,7 @@ class User extends Authenticatable
     }
     
     //userとactivityは１対多の関係
-    public function activuties(){
+    public function activities(){
 
         return $this->hasMany('App\Activity');
     }    

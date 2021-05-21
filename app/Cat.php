@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cats extends Model
+class Cat extends Model
 {
     
     //入力フォームに入力できるように設定
@@ -37,14 +37,10 @@ class Cats extends Model
         return $this->belongsTo('App\Area');
     } 
     
-    //attentionとcatは1対多の関係
-    public function attention(){
-
-        return $this->belongsTo('App\Attention');
-    }    
     
     /**
      * catに属する注意事項を取得(多対多のリレーション定義)
+     * attentionとcatは多対多の関係
      */
     public function attentions()
     {

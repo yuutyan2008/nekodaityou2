@@ -8,7 +8,7 @@ class Belonging extends Model
 {
     
     //belongingとuserは1対多の関係
-    public function users(){ 
+    public function user(){ 
     
         return $this->belongsTo('App\User');
     }

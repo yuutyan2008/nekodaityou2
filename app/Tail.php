@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class tails extends Model
+class tail extends Model
 {
 
     //tailとcatは1対多の関係
-    public function cat(){ 
+    public function cats(){ 
     
         return $this->hasMany('App\Cat');
     }

@@ -15,9 +15,9 @@ class CreateTailsTable extends Migration
     {
         Schema::create('tails', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('long')->comment('長い');
-            $table->string('short')->comment('短い');
-            $table->string('middle')->comment('中間');
+            $table->string('length')->comment('長さ');
+            // $table->string('short')->comment('短い');
+            // $table->string('middle')->comment('中間');
             $table->timestamps();
         });
     }

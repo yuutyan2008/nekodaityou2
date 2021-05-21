@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Hairs extends Model
+class Hair extends Model
 {
  
  

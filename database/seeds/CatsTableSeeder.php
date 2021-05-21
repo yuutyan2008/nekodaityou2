@@ -29,24 +29,25 @@ class CatsTableSeeder extends Seeder
       ],
         [
         'name' => 'しん',
-        'tail_id' => '2',
-        'hair_id' => '2',
-        'gender_id' => '1',
-        'area_id' => '2',
-        'attention_id' => '2',
+        // 'tail_id' => '2',
+        // 'hair_id' => '2',
+        // 'gender_id' => '1',
+        // 'area_id' => '2',
+        // 'attention_id' => '2',
         'remarks' => '',
       ],
         [
         'name' => 'めい',
-        'tail_id' => '2',
-        'hair_id' => '2',
-        'gender_id' => '1',
-        'area_id' => '3',
-        'attention_id' => '3',
+        // 'tail_id' => '2',
+        // 'hair_id' => '2',
+        // 'gender_id' => '1',
+        // 'area_id' => '3',
+        // 'attention_id' => '3',
         'remarks' => '',
 
       ],
- 
+
+　 
 
     ]);
     }
