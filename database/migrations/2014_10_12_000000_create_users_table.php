@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
             $table->unsignedBigInteger('belonging_id')->default(0)->comment('所属ID');
-            $table->unsignedBigInteger('activity_id')->default(0)->comment('活動ID');
+            $table->unsignedBigInteger('activity_id')->comment('活動ID');
 
             // //外部キー制約
             // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');

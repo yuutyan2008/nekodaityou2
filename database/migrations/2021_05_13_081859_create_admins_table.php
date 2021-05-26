@@ -24,6 +24,8 @@ class CreateAdminsTable extends Migration
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
             $table->integer('belonging_id')->comment('所属ID')->default(0);
+            $table->unsignedBigInteger('activity_id')->comment('活動ID');
+
 
         });    }
 

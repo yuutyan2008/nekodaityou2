@@ -17,12 +17,8 @@ class CreateCatsTable extends Migration
         Schema::create('cats', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('猫ID');
             $table->string('name')->comment('猫の名前');
-            $table->unsignedBigInteger('tail_id')->comment('しっぽの長さ');
-            $table->unsignedBigInteger('hair_id')->comment('毛の模様');
-            $table->unsignedBigInteger('gender_id')->comment('性別');
-            $table->unsignedBigInteger('area_id')->comment('居住エリア');
-            $table->unsignedBigInteger('attention_id')->comment('注意事項');
-            $table->string('remarks')->comment('備考欄')->nullable();
+
+            //$table->string('remarks')->comment('備考欄')->nullable();
             
             // 画像のパスを保存するカラム
             $table->string('image_path')->nullable();  
