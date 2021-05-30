@@ -31,8 +31,8 @@ Route::get('/', function () { return redirect('/home'); });
 */
 Route::group(['middleware' => 'auth:user'], function() {
     Route::get('/home', 'HomeController@index')->name('home');
-    // Route::get('/serch','CatController@serch');//検索結果の表示
-    // Route::get('/','CatsController@index');//猫台帳一覧と検索画面
+    // Route::get('/search','CatController@index');//検索結果の表示
+    // Route::get('Admin/index','CatsController@index');//猫台帳一覧と検索画面
 });
 
  
@@ -55,6 +55,5 @@ Route::group(['prefix' => 'admin'], function() {
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
     Route::post('logout',   'Admin\LoginController@logout')->name('admin.logout');
     Route::get('home',      'Admin\HomeController@index')->name('admin.home');
-    // Route::get('/serch','CatController@serch');//検索結果の表示
-    // Route::get('/','CatsController@index');//猫台帳一覧と検索画面
+    Route::get('cats/index','Admin\CatController@index');//検索画面と結果の表示
 });
