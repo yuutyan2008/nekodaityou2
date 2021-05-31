@@ -16,7 +16,7 @@ class AdminsTableSeeder extends Seeder
         [
         'name' => 'サンプル太郎',
         'email' => 'sample@gmail.com',
-        'password' => 333,
+        'password' => bcrypt('sample'),
         'belonging_id' =>'11',
         'activity_id' => '11',
       ],
@@ -35,5 +35,4 @@ class AdminsTableSeeder extends Seeder
     //   ],
     ]);
     }
- 
 }

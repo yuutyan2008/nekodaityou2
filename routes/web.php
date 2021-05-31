@@ -18,7 +18,10 @@ Auth::routes();
 | 1) User 認証不要
 |--------------------------------------------------------------------------
 */
-Route::get('/', function () { return redirect('/home'); });
+Route::get('/', function () {
+    return redirect('/home');
+    Route::get('cats/index', 'CatController@index');//検索画面と結果の表示
+});
 
 
 
@@ -29,10 +32,9 @@ Route::get('/', function () { return redirect('/home'); });
 | 2) User ログイン後
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth:user'], function() {
+Route::group(['middleware' => 'auth:user'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    // Route::get('/search','CatController@index');//検索結果の表示
-    // Route::get('Admin/index','CatsController@index');//猫台帳一覧と検索画面
+    Route::get('cats/index', 'Auth\CatController@index');//検索画面と結果の表示
 });
 
  
@@ -41,10 +43,12 @@ Route::group(['middleware' => 'auth:user'], function() {
 | 3) Admin 認証不要
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'admin'], function() {
-    Route::get('/',         function () { return redirect('/admin/home'); });
-    Route::get('login',     'Admin\LoginController@showLoginForm')->name('admin.login');
-    Route::post('login',    'Admin\LoginController@login');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', function () {
+        return redirect('/admin/home');
+    });
+    Route::get('login', 'Admin\LoginController@showLoginForm')->name('admin.login');
+    Route::post('login', 'Admin\LoginController@login');
 });
  
 /*
@@ -52,8 +56,8 @@ Route::group(['prefix' => 'admin'], function() {
 | 4) Admin ログイン後
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function() {
-    Route::post('logout',   'Admin\LoginController@logout')->name('admin.logout');
-    Route::get('home',      'Admin\HomeController@index')->name('admin.home');
-    Route::get('cats/index','Admin\CatController@index');//検索画面と結果の表示
+Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
+    Route::post('logout', 'Admin\LoginController@logout')->name('admin.logout');
+    Route::get('home', 'Admin\HomeController@index')->name('admin.home');
+    Route::get('cats/index', 'Admin\CatController@index');//検索画面と結果の表示
 });

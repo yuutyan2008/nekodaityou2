@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -13,14 +12,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //CatsTableSeederを利用するための設定
-        $this->call(CatsTableSeeder::class);
+        // $this->call(CatsTableSeeder::class);
        
-        // $this->call(UsersTableSeeder::class);    
+        // $this->call(UsersTableSeeder::class);
         
-        // $this->call(AdminsTableSeeder::class);      
+        $this->call(AdminsTableSeeder::class);
         
-        //$this->call(ActivitiesTableSeeder::class);        
-
-
+        //$this->call(ActivitiesTableSeeder::class);
     }
 }

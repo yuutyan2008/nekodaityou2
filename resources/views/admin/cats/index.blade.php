@@ -11,7 +11,7 @@
     <div class="row">
         <h2>猫一覧</h2>
     </div>
-　　<!--検索フォーム-->
+        　　　     <!--検索フォーム-->
     <div class="row">
 　　　<div class="col-md-4">
 　　　   <!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
@@ -36,8 +36,8 @@
           <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>猫の名前</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">猫の名前</th>
                 </tr>
             </thead>
             <tbody>

@@ -17,11 +17,13 @@ class CreateCatsTable extends Migration
         Schema::create('cats', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('猫ID');
             $table->string('name')->comment('猫の名前');
+            
+            $table->timestamps();
 
             //$table->string('remarks')->comment('備考欄')->nullable();
             
             // 画像のパスを保存するカラム
-            $table->string('image_path')->nullable();  
+            $table->string('image_path')->nullable();
             
 
             // //外部キーの設定
@@ -30,7 +32,6 @@ class CreateCatsTable extends Migration
             // $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
             // $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
             // $table->foreign('attention_id')->references('id')->on('attentions')->onDelete('cascade');
-
         });
     }
 
