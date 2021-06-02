@@ -18,7 +18,6 @@ use Storage;
 
 class CatController extends Controller
 {
-
   
     //猫台帳検索、一覧表示
     public function index(Request $request)
@@ -33,7 +32,7 @@ class CatController extends Controller
             //catテーブルのnameカラムで$cond_titleユーザー入力文字に一致するレコードを全て取得
             $posts = Cat::where('name', $cond_title)->get();
         } else {
-
+    
             /*Cat::all()は、Eloquentを使い全てのcatテーブルを取得するというメソッド（処理）
             updated_at:投稿日時で、sortByDesc:updated_at新しいもの順に並べ替える
             */
@@ -46,5 +45,42 @@ class CatController extends Controller
         */
         // dd($posts, $cond_title);
         return view('admin.cats.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+    }
+    
+    
+    //フォームに入力する
+    public function add()
+    {
+        return view('admin.cats.create');
+    }
+    
+    //入力した文字をDBに保存する
+    public function create(Request $request)
+    {
+        // Varidationを行う。Catディレクトリの$rules変数を呼び出す
+        $this->validate($request, Cat::$rules);
+    
+        $cat = new Cat;
+        $form = $request->all();
+    
+        // formに画像があれば、保存する
+        if (isset($form['image'])) {
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $news->image_path = Storage::disk('s3')->url($path);
+        } else {
+            $cat->image_path = null;
+        }
+    
+        //フォームから送信された使用済トークンの削除
+        unset($form['_token']);
+        
+        //フォームから送信された保存済画像の削除
+        unset($form['image']);
+        
+        // データベースに保存する
+        $cat->fill($form);
+        $cat->save();
+        
+        return redirect('admin/cats/create');
     }
 }

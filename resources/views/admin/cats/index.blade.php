@@ -5,13 +5,15 @@
 @section('title', '猫台帳検索')
 
 @section('content')
-
-<header style="background-color:gray">猫台帳検索</header>
-<div class="container">
+  <div class="container">
     <div class="row">
+      <div class="col-md-8 mx-auto">
         <h2>猫一覧</h2>
+      </div>
     </div>
-        　　　     <!--検索フォーム-->
+  </div>
+　　
+　　<!--検索フォーム-->
     <div class="row">
 　　　<div class="col-md-4">
 　　　   <!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
