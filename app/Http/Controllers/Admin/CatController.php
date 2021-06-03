@@ -57,7 +57,7 @@ class CatController extends Controller
     //入力した文字をDBに保存する
     public function create(Request $request)
     {
-        // Varidationを行う。Catディレクトリの$rules変数を呼び出す
+        //controllerのVaridationメソッドを呼び出す。Catディレクトリの$rules変数を検証する
         $this->validate($request, Cat::$rules);
     
         $cat = new Cat;
@@ -66,7 +66,7 @@ class CatController extends Controller
         // formに画像があれば、保存する
         if (isset($form['image'])) {
             $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $news->image_path = Storage::disk('s3')->url($path);
+            $cat->image_path = Storage::disk('s3')->url($path);
         } else {
             $cat->image_path = null;
         }
