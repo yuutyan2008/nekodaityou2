@@ -64,5 +64,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('cats/create', 'Admin\CatController@create');//送信ボタンでDBに追加
     Route::get('activity/create', 'Admin\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
     Route::post('activity/create', 'Admin\ActivityController@create');//送信ボタンでDBに追加
-    Route::get('activity/index', 'Admin\ActivityController@index');//猫活動一覧表
+    Route::get('activity/index', 'Admin\ActivityController@index');//猫活動一覧
 });

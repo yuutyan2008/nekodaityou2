@@ -15,7 +15,6 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('admin_id')->comment('管理者ID');
             $table->string('content')->comment('活動内容');
             $table->string('image_path')->nullable();  // 画像のパスを保存するカラム
             $table->timestamps();
@@ -24,8 +23,7 @@ class CreateActivitiesTable extends Migration
             
             // //外部キー制約
             // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            // $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');         
-
+            // $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 

@@ -8,136 +8,37 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <h2>猫一覧</h2>
+        <h2>地域猫活動の投稿一覧</h2>
       </div>
     </div>
-  </div>
-　　
-　　<!--検索フォーム-->
-    <div class="row">
-　　　<div class="col-md-12">
-　　　　<!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
-　　　　<form action="{{ action('Admin\CatController@index') }}" method="get">
-            <div class="form row">
-              <div class="form-group col-md-6">
-              　<label class="col-md-2">猫の名前</label>
-                　<div class="col-md-5">
-                　　<input type="text" class="form-control" name="cond_title" value="{{ $cond_title }}">
-              　　</div>
-            　</div>        
-            <div class="form-row">
-              <div class="form-group col-md-5">
-                <label for="tail">しっぽの長さ</label>
-                    <select class="custom-select">
-                        <option selected>しっぽの長さを選んでください</option>
-                        <option value="長い">長い</option>
-                        <option value="短い">短い</option>
-                        <option value="中間くらい">中間くらい</option>
-                    </select>
-
-            </div>
-            <div class="form-group col-md-5">
-                <label for="hair">毛の模様</label>
-
-                    <select class="custom-select">
-                        <option selected>毛の模様を選んでください</option>
-                        <option value="茶トラ">茶トラ</option>
-                        <option value="茶白">茶白</option>
-                        <option value="黒">黒</option>
-                        <option value="白黒">白黒</option>
-                        <option value="キジ白">キジ白</option>
-                        <option value="キジ">キジ</option>
-                        <option value="白">白</option>
-                        <option value="グレー">グレー</option>
-                        <option value="三毛">三毛</option>
-                        <option value="その他">その他</option>
-                    </select>
-
-            </div>
-            <div class="form-group col-md-2">
-                <label for="gender">性別</label>
-
-                    <select class="custom-select">
-                        <option selected>性別を選んでください</option>
-                        <option value="オス">オス</option>
-                        <option value="メス">メス</option>
-                    </select>
-
-            </div>
-            <div class="form-group row">
-              <div class="form-group col-md-6">
-                <label for="area">居住エリア</label>
-
-                    <select class="custom-select">
-                        <option selected>居住エリアを選んでください</option>
-                        <option value="農獣塔前">農獣塔前</option>
-                        <option value="体育館裏">体育館裏</option>
-                        <option value="図書館付近">図書館付近</option>
-                        <option value="教育学部塔付近">教育学部塔付近</option>
-                        <option value="ビオトープ">ビオトープ</option>
-                    </select>
-
-            </div>
-            <div class="form-group col-md-6">
-                <label for="attention">注意事項</label>
-
-                    <select class="custom-select">
-                        <option selected>注意事項を選んでください</option>
-                        <option value="避妊去勢済">避妊去勢済</option>
-                        <option value="病気の可能性">病気の可能性</option>
-                        <option value="怪我をしている">怪我をしている</option>
-                        <option value="妊娠の可能性">妊娠の可能性</option>
-                        <option value="譲渡できそう">譲渡できそう</option>
-                    </select>
-
-            </div>
-            
-              　<div class="form row">
-          　　　　　　　<div class="col-md-5">
-                    <button type="submit" class="btn btn-primary ">検索</button>
-                  </div>
-                </div>
-    
->
-          </div>
-        </div>
-        <!--一覧表示-->
-
+    <!--一覧表示-->
     <div class="row">
       <div class="col-md-12">
-        <table class="table table-striped">
-          <thead>
+        <!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
               <tr>
                   <th width="5%">更新日</th>
-                  <th width="5%">猫の名前</th>
-                  <th width="5%">しっぽの長さ</th>
-                  <th width="5%">毛の模様</th>
-                  <th width="5%">性別</th>
-                  <th width="5%">居住エリア</th>
-                  <th width="10%">注意事項</th>
-                  <th width="30%">備考欄</th>
-                  <th width="30%">画像</th>
+                  <th width="5%">投稿者</th>
+                  <th width="5%">活動内容</th>              
+                  <th width="30%">画像</th>                
               </tr>
           </thead>
             <!--posts配列catとして受け取ったレコードデータを順に出力していく-->
-            <tbody>
-                @foreach($posts as $cat)
-                    <tr>
-                        <td>{{ $cat->updated_at->format('Y年m月d日') }}</td>
-                        <td>{{str_limit($cat->name, 20)}}</td>
-                        <td>{{str_limit($cat->tail, 20)}}</td>
-                        <td>{{str_limit($cat->hair, 20)}}</td>
-                        <td>{{str_limit($cat->gender, 10)}}</td>
-                        <td>{{str_limit($cat->area, 20)}}</td>
-                        <td>{{str_limit($cat->attention, 30)}}</td>
-                        <td>{{str_limit($cat->remarks, 20)}}</td>
-                        @if ($cat->image_path)
-                          <td><img src="{{ $cat->image_path }}">
-                        @endif
-                          </tr>
+            <tbody> 
+                @foreach($posts as $activity)
+                  <tr>
+                      <td>{{ $activity->updated_at->format('Y年m月d日') }}</td>
+                      <td>{{str_limit($activity->user_id, 20)}}</td>
+                      <td>{{str_limit($activity->content, 20)}}</td>
+                      @if ($activity->image_path)
+                        <td><img src="{{ $activity->image_path }}">
+                      @endif
+                  </tr>
                 @endforeach
             </tbody>
-        </table>
+        </div>
       </div>
     </div>
   </div>

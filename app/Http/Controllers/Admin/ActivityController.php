@@ -52,6 +52,7 @@ class ActivityController extends Controller
 
         return redirect('admin/activity/create');
     }
+    
     public function index(Request $request)
     {
        
@@ -59,10 +60,9 @@ class ActivityController extends Controller
         $posts = Activity::all();
     
         /*
-          index.blade.phpのファイルに取得したレコード（$posts）と、
-          ユーザーが入力した文字列（$cond_title）を渡し、ページを開く
+          index.blade.phpのファイルに取得したレコード（$posts）を渡し、ページを開く
           view(ファイル名, 使いたい配列)
         */
-        return view('admin.activity.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+        return view('admin.activity.index');
     }
 }

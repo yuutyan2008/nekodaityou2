@@ -11,8 +11,6 @@
                 <h2>猫台帳の新規作成</h2>
             </div>
         </div>
-    </div>
-    
     <form>
         <div class="form row">
             <div class="col-md-4">
@@ -105,5 +103,6 @@
         {{ csrf_field() }}
         <input type="submit" class="btn btn-primary" value="更新">
     </form>
+    </div>
 
 @endsection

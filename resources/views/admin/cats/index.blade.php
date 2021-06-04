@@ -14,83 +14,93 @@
   </div>
 　　
 　　<!--検索フォーム-->
-　　<form>
-      <div class="row">
-        <!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
-        <div class="col-md-12">
-  　　　   　<form action="{{ action('Admin\CatController@index') }}" method="get"
-　　　</div>
-      <div class="form row">
-        <div class="form-group col-md-6">
-        　<label class="col-md-2">猫の名前</label>
-          　<div class="col-md-5">
-          　　<input type="text" class="form-control" name="cond_title" value="{{ $cond_title }}">
-        　　</div>
-      　</div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-5">
-          <label for="tail">しっぽの長さ</label>
-              <select class="custom-select">
-                  <option selected>しっぽの長さを選んでください</option>
-                  <option value="長い">長い</option>
-                  <option value="短い">短い</option>
-                  <option value="中間くらい">中間くらい</option>
-              </select>
+    <div class="row">
+　　　<div class="col-md-12">
+　　　　<!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
+　　　　<form action="{{ action('Admin\CatController@index') }}" method="get">
+            <div class="form row">
+              <div class="form-group col-md-6">
+              　<label class="col-md-2">猫の名前</label>
+                　<div class="col-md-5">
+                　　<input type="text" class="form-control" name="cond_title" value="{{ $cond_title }}">
+              　　</div>
+            　</div>        
+            <div class="form-row">
+              <div class="form-group col-md-5">
+                <label for="tail">しっぽの長さ</label>
+                    <select class="custom-select">
+                        <option selected>しっぽの長さを選んでください</option>
+                        <option value="長い">長い</option>
+                        <option value="短い">短い</option>
+                        <option value="中間くらい">中間くらい</option>
+                    </select>
+
+            </div>
+            <div class="form-group col-md-5">
+                <label for="hair">毛の模様</label>
+
+                    <select class="custom-select">
+                        <option selected>毛の模様を選んでください</option>
+                        <option value="茶トラ">茶トラ</option>
+                        <option value="茶白">茶白</option>
+                        <option value="黒">黒</option>
+                        <option value="白黒">白黒</option>
+                        <option value="キジ白">キジ白</option>
+                        <option value="キジ">キジ</option>
+                        <option value="白">白</option>
+                        <option value="グレー">グレー</option>
+                        <option value="三毛">三毛</option>
+                        <option value="その他">その他</option>
+                    </select>
+
+            </div>
+            <div class="form-group col-md-2">
+                <label for="gender">性別</label>
+
+                    <select class="custom-select">
+                        <option selected>性別を選んでください</option>
+                        <option value="オス">オス</option>
+                        <option value="メス">メス</option>
+                    </select>
+
+            </div>
+            <div class="form-group row">
+              <div class="form-group col-md-6">
+                <label for="area">居住エリア</label>
+
+                    <select class="custom-select">
+                        <option selected>居住エリアを選んでください</option>
+                        <option value="農獣塔前">農獣塔前</option>
+                        <option value="体育館裏">体育館裏</option>
+                        <option value="図書館付近">図書館付近</option>
+                        <option value="教育学部塔付近">教育学部塔付近</option>
+                        <option value="ビオトープ">ビオトープ</option>
+                    </select>
+
+            </div>
+            <div class="form-group col-md-6">
+                <label for="attention">注意事項</label>
+
+                    <select class="custom-select">
+                        <option selected>注意事項を選んでください</option>
+                        <option value="避妊去勢済">避妊去勢済</option>
+                        <option value="病気の可能性">病気の可能性</option>
+                        <option value="怪我をしている">怪我をしている</option>
+                        <option value="妊娠の可能性">妊娠の可能性</option>
+                        <option value="譲渡できそう">譲渡できそう</option>
+                    </select>
+
+            </div>
+            
+              　<div class="form row">
+          　　　　　　　<div class="col-md-5">
+                    <button type="submit" class="btn btn-primary ">検索</button>
+                  </div>
+                </div>
+    
+>
+          </div>
         </div>
-        <div class="form-group col-md-5">
-            <label for="hair">毛の模様</label>
-                <select class="custom-select">
-                    <option selected>毛の模様を選んでください</option>
-                    <option value="茶トラ">茶トラ</option>
-                    <option value="茶白">茶白</option>
-                    <option value="黒">黒</option>
-                    <option value="白黒">白黒</option>
-                    <option value="キジ白">キジ白</option>
-                    <option value="キジ">キジ</option>
-                    <option value="白">白</option>
-                    <option value="グレー">グレー</option>
-                    <option value="三毛">三毛</option>
-                    <option value="その他">その他</option>
-                </select>
-        </div>
-        <div class="form-group col-md-2">
-            <label for="gender">性別</label>
-                <select class="custom-select">
-                    <option selected>性別を選んでください</option>
-                    <option value="オス">オス</option>
-                    <option value="メス">メス</option>
-                </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="form-group col-md-6">
-          <label for="area">居住エリア</label>
-              <select class="custom-select">
-                  <option selected>居住エリアを選んでください</option>
-                  <option value="農獣塔前">農獣塔前</option>
-                  <option value="体育館裏">体育館裏</option>
-                  <option value="図書館付近">図書館付近</option>
-                  <option value="教育学部塔付近">教育学部塔付近</option>
-                  <option value="ビオトープ">ビオトープ</option>
-              </select>
-        </div>
-        <div class="form-group col-md-6">
-            <label for="attention">注意事項</label>
-                <select class="custom-select">
-                    <option selected>注意事項を選んでください</option>
-                    <option value="避妊去勢済">避妊去勢済</option>
-                    <option value="病気の可能性">病気の可能性</option>
-                    <option value="怪我をしている">怪我をしている</option>
-                    <option value="妊娠の可能性">妊娠の可能性</option>
-                    <option value="譲渡できそう">譲渡できそう</option>
-                </select>
-        </div>
-            　　　　　　　<div class="col-md-5">
-                      <button type="submit" class="btn btn-primary ">検索</button>
-                    </div>
-      </div>
-　　<form>                
         <!--一覧表示-->
 
     <div class="row">
