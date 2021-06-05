@@ -15,7 +15,7 @@
         <div class="row">
 　　        <div class="col-md-4">
             <!--フォームの送信先を指定-->
-            <form action="{{ action('Admin\ActivityController@create') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ action('user\ActivityController@create') }}" method="post" enctype="multipart/form-data">
     
             <!--エラーの数だけ$eに入れて$eを表示-->
             @if (count($errors) > 0)
@@ -27,10 +27,10 @@
             @endif
             </div>
             <div class="form-group row">
-                <label class="col-md-2" for="user_id">投稿者</label>
+                <label class="col-md-2" for="title">タイトル</label>
                 <div class="col-md-10">
                     <!--old（変数名)は入力エラーで画面が戻された時も自動で入れ直す-->
-                    <input type="text" class="form-control" name="user_id" value="{{ old('user_id') }}">
+                    <input type="text" class="form-control" name="title" value="{{ old('title') }}">
                 </div>
             </div>
             <div class="form-group row">

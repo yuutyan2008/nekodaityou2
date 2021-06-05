@@ -15,7 +15,7 @@
     <div class="row">
 　　　<div class="col-md-4">
 　　　   <!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
-         <form action="{{ action('Auth\CatController@index') }}" method="get">
+         <form action="{{ action('user\CatController@index') }}" method="get">
             <div class="form-group row">
               <label class="col-md-2">猫の名前</label>
               <!--入力-->

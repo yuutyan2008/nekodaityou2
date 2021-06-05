@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+//
+use Auth;
 
 use App\Activity;
 
@@ -19,7 +21,7 @@ class ActivityController extends Controller
   //フォームに入力する
     public function add()
     {
-        return view('admin.activity.create');
+        return view('auth.activity.create');
     }
 
     //入力した文字をDBに保存する
@@ -47,10 +49,11 @@ class ActivityController extends Controller
         unset($form['image']);
       
         // データベースに保存する
+        $activity->user_id = Auth::id();
         $activity->fill($form);
         $activity->save();
 
-        return redirect('admin/activity/create');
+        return redirect('auth/activity/create');
     }
     
     public function index(Request $request)
@@ -63,6 +66,6 @@ class ActivityController extends Controller
           index.blade.phpのファイルに取得したレコード（$posts）を渡し、ページを開く
           view(ファイル名, 使いたい配列)
         */
-        return view('admin.activity.index');
+        return view('auth.activity.index');
     }
 }

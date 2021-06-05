@@ -16,7 +16,7 @@
     <div class="row">
 　　　<div class="col-md-4">
         <!--フォームの送信先を指定-->
-        <form action="{{ action('Admin\CatController@create') }}" method="post" enctype="multipart/form-data">
+        <form action="{{ action('user\CatController@create') }}" method="post" enctype="multipart/form-data">
 
         <!--エラーの数だけ$eに入れて$eを表示-->
         @if (count($errors) > 0)

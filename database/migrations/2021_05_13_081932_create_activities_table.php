@@ -15,10 +15,10 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('title')->comment('タイトル');
             $table->string('content')->comment('活動内容');
             $table->string('image_path')->nullable();  // 画像のパスを保存するカラム
             $table->timestamps();
-            $table->unsignedBigInteger('belonging_id')->comment('所属ID');
             $table->bigInteger('user_id')->comment('userID');
             
             // //外部キー制約

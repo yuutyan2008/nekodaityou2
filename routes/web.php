@@ -35,6 +35,9 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth:user'], function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('cats/index', 'Auth\CatController@index');//検索画面と結果の表示
+    Route::get('activity/create', 'Auth\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
+    Route::post('activity/create', 'Auth\ActivityController@create');//送信ボタンでDBに追加
+    Route::get('activity/index', 'Auth\ActivityController@index');//猫活動一覧
 });
 
  
@@ -62,7 +65,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('cats/index', 'Admin\CatController@index');//検索画面と結果の表示
     Route::get('cats/create', 'Admin\CatController@add');//フォームに入力するとaddアクションへ
     Route::post('cats/create', 'Admin\CatController@create');//送信ボタンでDBに追加
-    Route::get('activity/create', 'Admin\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
-    Route::post('activity/create', 'Admin\ActivityController@create');//送信ボタンでDBに追加
-    Route::get('activity/index', 'Admin\ActivityController@index');//猫活動一覧
 });

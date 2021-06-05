@@ -23,7 +23,6 @@ class CreateAdminsTable extends Migration
             $table->string('password')->comment('管理者パスワード');
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
-            $table->integer('belonging_id')->comment('所属ID')->default(0);
         });
     }
 

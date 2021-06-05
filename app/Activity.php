@@ -25,9 +25,9 @@ class Activity extends Model
         return $this->belongsTo('App\User');
     }
     
-    //adminとactivityは１対多の関係
-    public function admin()
-    {
-        return $this->belongsTo('App\Admin');
-    }
+    // //adminとactivityは１対多の関係
+    // public function admin()
+    // {
+    //     return $this->belongsTo('App\Admin');
+    // }
 }
