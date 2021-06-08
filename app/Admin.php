@@ -40,22 +40,19 @@ class Admin extends Authenticatable
     ];
     
     //adminとactivityは１対多の関係
-    public function activities(){
-
+    public function activities()
+    {
         return $this->hasMany('App\Activity');
-    }    
+    }
        
     
     
     //validation設定。guardをかけてModelで値を用意しなくても保存できるよう保護する
-    protected $guarded = array('id', 'belonging_id');
+    protected $guarded = array('id');
     
-     public static $rules = array(
+    public static $rules = array(
          'name' => 'required',
          'email' => 'required',
          'password' => 'required|string|min:6|confirmed',
     );
-    
-
-    
-    }
+}

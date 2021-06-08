@@ -32,12 +32,11 @@ Route::get('/', function () {
 | 2) User ログイン後
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => 'auth:user'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('cats/index', 'Auth\CatController@index');//検索画面と結果の表示
-    Route::get('activity/create', 'Auth\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
-    Route::post('activity/create', 'Auth\ActivityController@create');//送信ボタンでDBに追加
-    Route::get('activity/index', 'Auth\ActivityController@index');//猫活動一覧
+Route::group(['prefix' => 'user', 'middleware' => 'auth:user'], function () {
+    Route::get('cats/index', 'user\CatController@index');//検索画面と結果の表示
+    Route::get('activity/create', 'user\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
+    Route::post('activity/create', 'user\ActivityController@create');//送信ボタンでDBに追加
+    Route::get('activity', 'user\ActivityController@index');//猫活動一覧
 });
 
  

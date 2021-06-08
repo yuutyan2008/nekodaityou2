@@ -6,6 +6,8 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException; //マルチ認証で追加
 
+// use app\Http\Middleware\Authenticate;//マルチ認証5.8で追加
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -50,7 +52,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
     
-        /**
+    /**
      * 認証していない場合にガードを見てそれぞれのログインページへ飛ばず
      *
      * @param \Illuminate\Http\Request $request
@@ -59,7 +61,7 @@ class Handler extends ExceptionHandler
      */
     public function unauthenticated($request, AuthenticationException $exception)
     {
-        if($request->expectsJson()){
+        if ($request->expectsJson()) {
             return response()->json(['message' => $exception->getMessage()], 401);
         }
  
@@ -69,6 +71,15 @@ class Handler extends ExceptionHandler
  
         return redirect()->guest(route('login'));
     }
+    
+    // /**
+    //  * ユーザーをリダイレクトさせるパスの取得
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return string
+    //  */
+    // protected function redirectTo($request)
+    // {
+    //     return route('login');
+    // }
 }
-
-

@@ -1,6 +1,6 @@
 <?php
 //ログイン後のUser画面表示を処理するcontroller
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\user;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Auth;
@@ -97,70 +97,69 @@ class UserController extends Controller
 //Controllerを継承してProfileControllerクラスを定義します
 class ProfileController extends Controller
 {
-    // add, create, edit, updateプロパティを追加  
+    // add, create, edit, updateプロパティを追加
     public function add()
     {
         return view('admin.profile.create');
     }
 
-     //userとサーバー間で相互情報のやりとりを管理するrequest/responceクラス
+    //userとサーバー間で相互情報のやりとりを管理するrequest/responceクラス
     public function edit(Request $request)
     {
         // Profile Modelからデータを取得する
         $profile = Profile::find($request->id);
         if (empty($profile)) {
-          abort(404);    
-      }
+            abort(404);
+        }
         return view('admin.profile.edit', ['profile_form' => $profile]);
     }
 
     public function update(Request $request)
     {
-      // Validationをかける
-      $this->validate($request, Profile::$rules);
+        // Validationをかける
+        $this->validate($request, Profile::$rules);
       
-      // Profile Modelからデータを取得する
-      $profile = Profile::find($request->id);
+        // Profile Modelからデータを取得する
+        $profile = Profile::find($request->id);
       
-      // 送信されてきたフォームデータを格納する
-      $profile_form = $request->all();
+        // 送信されてきたフォームデータを格納する
+        $profile_form = $request->all();
       
-      unset($profile_form['_token']);      
+        unset($profile_form['_token']);
       
      
 
-      // 該当するデータを上書きして保存する
-      $profile->fill($profile_form)->save(); 
+        // 該当するデータを上書きして保存する
+        $profile->fill($profile_form)->save();
       
-      //ProfileHistory Modelにも編集履歴を追加
-      $profilehistory = new ProfileHistory;
-      $profilehistory->profile_id = $profile->id;
-      $profilehistory->edited_at = Carbon::now();
-      $profilehistory->save();
+        //ProfileHistory Modelにも編集履歴を追加
+        $profilehistory = new ProfileHistory;
+        $profilehistory->profile_id = $profile->id;
+        $profilehistory->edited_at = Carbon::now();
+        $profilehistory->save();
         
-      return redirect(sprintf("admin/profile/edit?id=%d", $profile->id));
+        return redirect(sprintf("admin/profile/edit?id=%d", $profile->id));
     }
       
-     //userとサーバー間で相互情報のやりとりを管理するrequest/responceクラス
+    //userとサーバー間で相互情報のやりとりを管理するrequest/responceクラス
     public function create(Request $request)
-    { 
-      // Varidationを行う
-      $this->validate($request, Profile::$rules);
+    {
+        // Varidationを行う
+        $this->validate($request, Profile::$rules);
 
-      $profile = new Profile;
-      $form = $request->all();
+        $profile = new Profile;
+        $form = $request->all();
 
  
-      unset($form['_token']);
+        unset($form['_token']);
       
-      // データベースに保存する
-      $profile->fill($form);
-      $profile->save();
+        // データベースに保存する
+        $profile->fill($form);
+        $profile->save();
 
         
         
-     // admin/profile/createにリダイレクトする
+        // admin/profile/createにリダイレクトする
         return redirect('admin/profile/create');
-    }  
-              
+    }
 }
