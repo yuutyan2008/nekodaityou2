@@ -19,9 +19,10 @@ Auth::routes();
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    return redirect('/home');
-    Route::get('cats/index', 'CatController@index');//検索画面と結果の表示
+    return redirect('/home');//マルチ認証
 });
+Route::get('cats/index', 'CatController@index');//検索画面と結果の表示
+
 
 
 
@@ -33,11 +34,11 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['middleware' => 'auth:user'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('cats/index', 'Auth\CatController@index');//検索画面と結果の表示
-    Route::get('activity/create', 'Auth\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
-    Route::post('activity/create', 'Auth\ActivityController@create');//送信ボタンでDBに追加
-    Route::get('activity/index', 'Auth\ActivityController@index');//猫活動一覧
+    Route::get('/home', 'HomeController@index')->name('home');//マルチ認証
+    Route::get('cats/index', 'CatController@index');//検索画面と結果の表示
+    Route::get('activity/create', 'ActivityController@add');//猫活動フォームに入力するとaddアクションへ
+    Route::post('activity/create', 'ActivityController@create');//送信ボタンでDBに追加
+    Route::get('activity/index', 'ActivityController@index');//猫活動一覧
 });
 
  
@@ -49,9 +50,9 @@ Route::group(['middleware' => 'auth:user'], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/', function () {
         return redirect('/admin/home');
-    });
-    Route::get('login', 'Admin\LoginController@showLoginForm')->name('admin.login');
-    Route::post('login', 'Admin\LoginController@login');
+    });//マルチ認証
+    Route::get('login', 'Admin\LoginController@showLoginForm')->name('admin.login');//マルチ認証
+    Route::post('login', 'Admin\LoginController@login');//マルチ認証
 });
  
 /*
@@ -60,8 +61,8 @@ Route::group(['prefix' => 'admin'], function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
-    Route::post('logout', 'Admin\LoginController@logout')->name('admin.logout');
-    Route::get('home', 'Admin\HomeController@index')->name('admin.home');
+    Route::post('logout', 'Admin\LoginController@logout')->name('admin.logout');//マルチ認証
+    Route::get('home', 'Admin\HomeController@index')->name('admin.home');//マルチ認証
     Route::get('cats/index', 'Admin\CatController@index');//検索画面と結果の表示
     Route::get('cats/create', 'Admin\CatController@add');//フォームに入力するとaddアクションへ
     Route::post('cats/create', 'Admin\CatController@create');//送信ボタンでDBに追加

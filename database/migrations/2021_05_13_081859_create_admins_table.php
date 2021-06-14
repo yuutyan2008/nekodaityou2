@@ -19,7 +19,7 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique()->comment('管理者メールアドレス');
             //timestampメソッド：Blueprintにより作成日時と更新日時を自動設定
             //メールの認証機能。登録確認メール受信で日時が自動入力される
-            $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス確認用');
+            $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス承認日');
             $table->string('password')->comment('管理者パスワード');
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();

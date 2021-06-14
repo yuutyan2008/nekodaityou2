@@ -45,6 +45,7 @@ class Kernel extends HttpKernel
 
     /**
      * The application's route middleware.
+     *middlewareを登録。（routingで登録したmiddlewareを呼び出す処理を設定)
      *
      * These middleware may be assigned to groups or used individually.
      *

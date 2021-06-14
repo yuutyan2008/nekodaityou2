@@ -60,7 +60,7 @@
                                 @if (Route::has('password.request'))
                                    
                                         {{ __('Forgot Your Password?') }}
-                                    </a>
+                                    
                                 @endif
                             </div>
                         </div>

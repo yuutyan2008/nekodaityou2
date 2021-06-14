@@ -18,8 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <管理者ログイン画面の背景色の設定>
-    <style>body{background-color: tomato;}</style>
+    <!--管理者ログイン画面の背景色の設定-->
+    <style>body{background-color: tomato;}</style><!--追加-->
 </head>
 <body>
     <div id="app">
@@ -45,10 +45,8 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('admin.register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.register') }}">{{ __('Register') }}</a>
-                                </li>
+                            @if (Route::has('register'))
+     
                             @endif
                         @else
                             <li class="nav-item dropdown">

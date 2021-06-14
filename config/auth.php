@@ -20,7 +20,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Guards
+    | Authentication Guards　認証ガード
     |--------------------------------------------------------------------------
     |
     | Next, you may define every authentication guard for your application.
@@ -34,11 +34,12 @@ return [
     | Supported: "session", "token"
     |
     */
-
+    
+    //認証の方法
     'guards' => [
         'web' => [
-            'driver' => 'session',//driverはguardの名前
-            'provider' => 'users',
+            'driver' => 'session',//driverはguardの名前。リクエストごとの認証をsession(認証を保持)に選択
+            'provider' => 'users',//認証情報提供を行う者の指定　
         ],
  
         'api' => [

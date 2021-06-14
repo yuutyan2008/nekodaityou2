@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
+//Authenticateはmiddleware名(middlewareディレクトリ直下のファイル全て)
 class Authenticate extends Middleware
 {
     /**

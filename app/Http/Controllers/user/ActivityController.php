@@ -30,8 +30,11 @@ class ActivityController extends Controller
 
       // Varidationを行う。activityディレクトリの$rules変数を呼び出す
         $this->validate($request, activity::$rules);
-
+        
+        // activityクラスのインスタンス作成
         $activity = new Activity;
+        
+        //
         $form = $request->all();
 
         // formに画像があれば、保存する
