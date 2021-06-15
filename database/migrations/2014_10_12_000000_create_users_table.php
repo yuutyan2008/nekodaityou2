@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->comment('パスワード');
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
-            $table->unsignedBigInteger('belonging_id')->comment('所属ID');
+            $table->unsignedBigInteger('belonging')->default(0)->comment('所属');
 
 
             // //外部キー制約

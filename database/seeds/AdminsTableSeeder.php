@@ -18,7 +18,7 @@ class AdminsTableSeeder extends Seeder
         'name' => 'サンプル太郎',
         'email' => 'sample@gmail.com',
         'password' => Hash::make('sample'),
-        'belonging_id' =>'11',
+       
       ],
     //     [
     //      'name' => '山本さん',

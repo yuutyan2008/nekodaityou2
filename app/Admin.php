@@ -49,7 +49,7 @@ class Admin extends Authenticatable
     
     
     //validation設定。guardをかけてModelで値を用意しなくても保存できるよう保護する
-    protected $guarded = array('id', 'belonging_id');
+    protected $guarded = array('id');
     
     public static $rules = array(
          'name' => 'required',
