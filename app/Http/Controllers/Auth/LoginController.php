@@ -22,18 +22,19 @@ class LoginController extends Controller
 
     /**
      * Where to redirect users after login.
-     *
+     *redirectToプロパティ
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
-     *
+     *ontrollerのコンストラクタでmiddlewareを呼び出している。
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        // 認証していないuserにmiddlewareをかけてログイン画面に飛ばす
+        $this->middleware('guest')->except('logout');//routingに記載のため不要
     }
 }

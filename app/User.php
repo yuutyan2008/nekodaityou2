@@ -2,12 +2,12 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\Notifiable;//メールを送れる設定
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;//adminモデルはこのクラスを継承
 use Illuminate\Database\Eloquent\Model;
 
-//Authにより組み込まれる認証機能では、Authenticatableを継承したModelクラスが必要
+//Authにより組み込まれる認証機能では、Authenticatableを継承したModelクラスを継承
 class User extends Authenticatable
 {
     use Notifiable;
@@ -23,7 +23,7 @@ class User extends Authenticatable
 
     /**
      * The attributes that should be hidden for arrays.
-     *
+     *remember_tokenはログイン時にremember meを選んだユーザーのトークンを保存しておくカラム
      * @var array
      */
     protected $hidden = [

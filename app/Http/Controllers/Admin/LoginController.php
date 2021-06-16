@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Login Controller
+    | Login Controller 認証処理を行う
     |--------------------------------------------------------------------------
     |
     | This controller handles authenticating users for the application and
@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo =  '/admin/home';//マルチ認証でadmin/indexに変更
+    protected $redirectTo = '/admin/home';//マルチ認証でadmin/indexに変更
 
     /**
      * Create a new controller instance.
@@ -36,6 +36,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        // 認証していないuserにmiddlewareをかけてログイン画面に飛ばす
         // $this->middleware('guest:admin')->except('logout');//routingに記載のため不要
     }
     

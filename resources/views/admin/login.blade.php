@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('messages.Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('admin.login') }}">
                         @csrf
 
                         <div class="form-group row">
@@ -59,13 +59,8 @@
 
                                 @if (Route::has('password.request'))
                                    
-<<<<<<< HEAD
                                         {{ __('Forgot Your Password?') }}
                                     
-=======
-                                        {{ __('messages.sForgot Your Password?') }}
-                                    </a>
->>>>>>> 5a34b453baca04b15bd34070eaab62df8cc810dc
                                 @endif
                             </div>
                         </div>

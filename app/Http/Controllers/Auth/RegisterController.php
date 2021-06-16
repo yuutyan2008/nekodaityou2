@@ -25,7 +25,7 @@ class RegisterController extends Controller
 
     /**
      * Where to redirect users after registration.
-     *
+     *登録後はHome画面へ
      * @var string
      */
     protected $redirectTo = '/home';
@@ -42,7 +42,7 @@ class RegisterController extends Controller
 
     /**
      * Get a validator for an incoming registration request.
-     *
+     *登録内容のvalidation
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
@@ -59,7 +59,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\User　　userモデルクラスの使用
      */
     protected function create(array $data)
     {

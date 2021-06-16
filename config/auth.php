@@ -20,7 +20,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Guards　認証ガード
+    | Authentication Guards　(認証ガード)。guardの追加を行う
     |--------------------------------------------------------------------------
     |
     | Next, you may define every authentication guard for your application.
@@ -52,12 +52,12 @@ return [
         ],
         'admin' => [ //マルチ認証の設定
             'driver' => 'session', //マルチ認証の設定
-            'provider' => 'admins', //マルチ認証の設定
+            'provider' => 'admins', //マルチ認証。adminsプロプロバイダー追加
         ],
     ],
     /*
     |--------------------------------------------------------------------------
-    | User Providers
+    | User Providers　認証に使うModelを設定
     |--------------------------------------------------------------------------
     |
     | All authentication drivers have a user provider. This defines how the
@@ -74,12 +74,12 @@ return [
 
    'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'eloquent',//デフォルトで用意しているApp/UserのAloquentモデルを、認証ドライバで使用
             'model' => App\User::class,
         ],
         'admins' => [ //マルチ認証の設定
             'driver' => 'eloquent', //マルチ認証の設定
-            'model' => App\Admin::class, //マルチ認証の設定
+            'model' => App\Admin::class, //マルチ認証の設定。model名をadminに設定
         ],
  
         // 'users' => [
