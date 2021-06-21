@@ -57,11 +57,9 @@
                                     {{ __('messages.Login') }}
                                 </button>
 
-                                @if (Route::has('password.request'))
-                                   
-                                        {{ __('Forgot Your Password?') }}
+                                
                                     
-                                @endif
+                                
                             </div>
                         </div>
                     </form>

@@ -35,6 +35,6 @@ class LoginController extends Controller
     public function __construct()
     {
         // 認証していないuserにmiddlewareをかけてログイン画面に飛ばす
-        $this->middleware('guest')->except('logout');//routingに記載のため不要
+        $this->middleware('guest')->except('logout');//
     }
 }

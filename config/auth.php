@@ -110,12 +110,14 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
-    ],
+    
 
+    
         'admins' => [ //マルチ認証の設定
-        'provider' => 'admins', //マルチ認証の設定
-        'table' => 'password_resets', //マルチ認証の設定
-        'expire' => 60, //マルチ認証の設定
+            'provider' => 'admins', //マルチ認証の設定
+            'table' => 'password_resets', //マルチ認証の設定
+            'expire' => 60, //マルチ認証の設定
+        ],
     ],
 
 ];

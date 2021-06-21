@@ -59,6 +59,7 @@ class Handler extends ExceptionHandler
      * エラーで認証できなかった場合にガードを見てそれぞれのログインページへ飛ばず.
      *Laravel5.5の仕様Handler.phpの«AuthenticationException»
      *AuthenticationExceptionクラスはreportメソッドでは記録処理が行われない
+     * config/auth.phpで指定したadminのguard
      * @param \Illuminate\Http\Request $request
      * @param AuthenticationException $exception
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
@@ -66,13 +67,19 @@ class Handler extends ExceptionHandler
      
     public function unauthenticated($request, AuthenticationException $exception)
     {
+        
+        //（requestがwebかAPIかをLaravelが判定し）APIリクエストでエラーが起きた時はJSONで帰ってくるよう設定（Laravel５.７以後は自動設定されるため不要）
         if ($request->expectsJson()) {
             return response()->json(['message' => $exception->getMessage()], 401);
         }
         
-        //guest(認証されていないuser)。routeに名前admin.loginをつけて、redirectを生成し、名前つきルートにリダイレクトしている
+        logger('admin');
+        /**
+         *guest(認証されていないuser)。routeに名前admin.loginをつけて、redirectを生成し、名前つきルートにリダイレクトしている
+         * adminユーザー入力の中にexceptionがあれば、guardメソッドを呼び出し
+         *$guardはadminというguard名の配列
+         */
         if (in_array('admin', $exception->guards())) {
-            logger('admin');
             return redirect()->guest(route('admin.login'));
         }
  

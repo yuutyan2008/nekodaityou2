@@ -36,8 +36,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        // 認証していないuserにmiddlewareをかけてログイン画面に飛ばす
-        // $this->middleware('guest:admin')->except('logout');//routingに記載のため不要
+        // ログインチェック。認証していないゲストadminのmiddlewareを適用しログイン画面に飛ばす
+        // $this->middleware('guest:admin')->except('logout');//middlewareをroutingに記載のため不要
     }
     
     public function showLoginForm()
@@ -45,7 +45,7 @@ class LoginController extends Controller
         return view('admin.login');  //ログイン認証
     }
  
-    // 登録済みユーザーを認証するguardメソッド
+    // 登録済みユーザーの認証方法を指定
     protected function guard()
     {
         return Auth::guard('admin');  //ログイン認証。admnの認証を呼び出している
@@ -53,10 +53,10 @@ class LoginController extends Controller
     
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();  //ログイン認証
+        Auth::guard('admin')->logout();  //ログアウト処理
         $request->session()->flush();//全データの削除
         $request->session()->regenerate();//sessionIDの再発行
  
-        return redirect('/admin/login');  //ログイン認証
+        return redirect('/admin/login');  //ログアウトの際のリダイレクト先
     }
 }
