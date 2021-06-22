@@ -45,6 +45,6 @@ class CatController extends Controller
          view(ファイル名, 使いたい配列)
         */
         // dd($posts, $cond_title);
-        return view('cats.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+        return view('user.cats.index', ['posts' => $posts, 'cond_title' => $cond_title]);
     }
 }

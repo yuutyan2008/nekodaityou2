@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
+     * コンストラクタでmiddlewareを呼び出している。
      * @return void
      */
     public function __construct()

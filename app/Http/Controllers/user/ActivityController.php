@@ -53,7 +53,7 @@ class ActivityController extends Controller
         unset($form['image']);
       
         // データベースに保存する
-        $activity->user_id = Auth::id();//activityテーブルのuser_idにアクセスしてAuthクラスのidに保存
+        $activity->user_id = Auth::id();//ログインuserのidを取得して、activityのuser_idをDBに保存する時に代入して一緒に保存
         $activity->fill($form);
         $activity->save();
 

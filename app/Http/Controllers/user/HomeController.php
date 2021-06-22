@@ -1,10 +1,9 @@
 <?php
-//topページの活動一覧
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\user;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
 
 class HomeController extends Controller
 {
@@ -15,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:user');
     }
 
     /**
@@ -25,12 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('user.home');
     }
     
-      public function add()
-  {
-      return view('home');
-  }
-
+    public function add()
+    {
+        return view('user.home');
+    }
 }

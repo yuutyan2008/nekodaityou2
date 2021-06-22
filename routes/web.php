@@ -35,11 +35,11 @@ Route::get('cats/index', 'CatController@index');//検索画面と結果の表示
 |--------------------------------------------------------------------------
 */
 Route::group(['middleware' => 'auth:user'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');//マルチ認証
-    Route::get('cats/index', 'CatController@index');//検索画面と結果の表示
-    Route::get('activity/create', 'ActivityController@add');//猫活動フォームに入力するとaddアクションへ
-    Route::post('activity/create', 'ActivityController@create');//送信ボタンでDBに追加
-    Route::get('activity/index', 'ActivityController@index');//猫活動一覧
+    Route::get('/home', 'user\HomeController@index')->name('home');//マルチ認証
+    Route::get('user/cats/index', 'user\CatController@index');//検索画面と結果の表示
+    Route::get('activity/create', 'user\ActivityController@add');//猫活動フォームに入力するとaddアクションへ
+    Route::post('activity/create', 'user\ActivityController@create');//送信ボタンでDBに追加
+    Route::get('activity/index', 'user\ActivityController@index');//猫活動一覧
 });
 
  
