@@ -63,8 +63,11 @@ Route::group(['prefix' => 'admin'], function () {
 */
 Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('logout', 'Admin\LoginController@logout')->name('admin.logout');//マルチ認証
+    Route::post('home', 'Admin\UserController@index')->name('admin.user.index');//home画面の会員情報参照ボタンから一覧表示へ
+    Route::post('home', 'Admin\CatController@index')->name('admin.cats.index');//home画面の猫台帳一覧ボタンから猫台帳一覧表示へ
     Route::get('home', 'Admin\HomeController@index')->name('admin.home');//マルチ認証
     Route::get('cats/index', 'Admin\CatController@index');//検索画面と結果の表示
     Route::get('cats/create', 'Admin\CatController@add');//フォームに入力するとaddアクションへ
     Route::post('cats/create', 'Admin\CatController@create');//送信ボタンでDBに追加
+    Route::get('user/index', 'Admin\UserController@index');//user一覧画面表示
 });
