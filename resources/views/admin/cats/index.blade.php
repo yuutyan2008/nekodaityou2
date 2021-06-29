@@ -94,7 +94,7 @@
             
               　<div class="form row">
           　　　　　　　<div class="col-md-5">
-                    <button type="submit" class="btn btn-primary ">検索</button>
+                    <button type="submit" class="btn btn-primary">検索</button>
                   </div>
                 </div>
     
@@ -108,6 +108,7 @@
         <table class="table table-striped">
           <thead>
               <tr>
+                  <th width="5%">クリックして選択</th>
                   <th width="5%">更新日</th>
                   <th width="5%">猫の名前</th>
                   <th width="5%">しっぽの長さ</th>
@@ -115,13 +116,18 @@
                   <th width="5%">性別</th>
                   <th width="5%">居住エリア</th>
                   <th width="10%">注意事項</th>
-                  <th width="30%">備考欄</th>
+                  <th width="20%">備考欄</th>
                   <th width="30%">画像</th>
+                  <th width="10%"></th>
+                  
+                  
+                  
               </tr>
           </thead>
             <!--posts配列catとして受け取ったレコードデータを順に出力していく-->
             <tbody>
                 @foreach($posts as $cat)
+
                     <tr>
                         <td>{{ $cat->updated_at->format('Y年m月d日') }}</td>
                         <td>{{str_limit($cat->name, 20)}}</td>
@@ -134,7 +140,13 @@
                         @if ($cat->image_path)
                           <td><img src="{{ $cat->image_path }}">
                         @endif
-                          </tr>
+                        <td>
+                          <div>
+                              <a href="{{ action('Admin\CatController@edit', ['id' => $cat->id]) }}">編集</a>
+                          </div>  
+                        </td>
+                    </tr>
+
                 @endforeach
             </tbody>
         </table>

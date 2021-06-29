@@ -23,7 +23,7 @@ class CatController extends Controller
     public function index(Request $request)
     {
     
-       //$requestの中の検索欄へのuser入力値cond_titleのを、変数cond_titleに代入
+        //$requestの中の検索欄へのuser入力値cond_titleのを、変数cond_titleに代入
         $cond_title = $request->cond_title;
        
         //検索欄が空欄でなければ（検索された場合）
@@ -59,7 +59,8 @@ class CatController extends Controller
     {
         //controllerのVaridationメソッドを呼び出す。Catディレクトリの$rules変数を検証する
         $this->validate($request, Cat::$rules);
-    
+        
+        //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
         $form = $request->all();
     
@@ -82,5 +83,73 @@ class CatController extends Controller
         $cat->save();
         
         return redirect('admin/cats/create');
+    }
+    
+
+    // 編集画面の処理
+    public function edit(Request $request)
+    {
+        //findメソッドを使用して主キーのidからCatテーブルレコードを抽出する
+        $cat = Cat::find($request->id);
+        if (empty($cat)) {
+            abort(404);
+        }
+        return view('admin.cats.edit', ['cat_form' => $cat]);//user入力データが格納されたcat_formから、データをcatに格納して
+    }
+    
+    //編集画面から送信されたフォームデータを処理
+    public function update(Request $request)
+    {
+        /*
+         Validationをかける.
+         第1引数に$requestとすると様々な値をチェックできる。
+         第２引数ModelのCatクラスの$rulesメソッド(validationのルールをまとめたもの)にアクセスしたい
+        */
+        $this->validate($request, Cat::$update_rules);
+        
+        //findメソッドを使用して主キーのidからCatテーブルレコードを抽出する
+        $cat = Cat::find($request->id);
+        
+        // 送信されてきたフォームデータを$cat_formに格納する
+        $cat_form = $request->all();
+      
+        if ($request->remove == 'true') {
+            $cat_form['image_path'] = null;
+        } elseif ($request->file('image')) {
+            //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入//
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
+            $cat->image_path = Storage::disk('s3')->url($path);
+        } else {
+            $cat_form['image_path'] = $cat->image_path;
+        }
+        //cat_formから送信されてきた[ ]を削除
+        unset($cat_form['_token']);
+        unset($cat_form['image']);
+        unset($cat_form['remove']);
+    
+        //送信前の画面へ戻る
+        return redirect()->back();
+      
+        // //Cat model保存と同時に、User Modelにも編集履歴を追加(会員情報から編集履歴を参照できるようにする)
+        // $user = new User;
+        // //オブジェクト変数（インスタンス化されたUserクラス）からcat_idメソッドを呼び出す=catオブジェクトからidメソッドを呼び出す
+        // $user->cat_id = $cat->id;
+        // //Carbon:日付操作ライブラリで現在時刻を取得し、user Modelの edited_at として記録
+        // $user->edited_at = Carbon::now();
+        // $user->save();
+    
+    
+        return redirect('admin/cats/edit');
+    }
+    
+    public function delete(Request $request)
+    {
+        // 該当するCat Modelを取得
+        // dd($request);
+        $cat = Cat::find($request->id);
+        // 削除する
+        $cat->delete();
+        return redirect('admin/cats/edit');
     }
 }

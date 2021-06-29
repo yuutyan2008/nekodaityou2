@@ -21,6 +21,13 @@ class Cat extends Model
         'area' => 'required',
     );
     
+    //編集用のvalidation
+    public static $update_rules = array(
+        'name' => 'required',
+        'hair' => 'required',
+        'area' => 'required',
+    );
+    
     // /**
     //  * catに属する注意事項を取得(多対多のリレーション定義)
     //  * attentionとcatは多対多の関係

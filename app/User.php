@@ -60,4 +60,9 @@ class User extends Authenticatable
          'email' => 'required',
          'password' => 'required|string|min:6|confirmed',
     );
+    
+    public static $update_rules = array(
+         'name' => 'required',
+         'email' => 'required',
+    );
 }
