@@ -128,6 +128,9 @@ class CatController extends Controller
         unset($cat_form['image']);
         unset($cat_form['remove']);
     
+        //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
+        $cat->fill($cat_form)->save();
+        
         //送信前の画面へ戻る
         return redirect()->back();
       
@@ -138,9 +141,6 @@ class CatController extends Controller
         // //Carbon:日付操作ライブラリで現在時刻を取得し、user Modelの edited_at として記録
         // $user->edited_at = Carbon::now();
         // $user->save();
-    
-    
-        return redirect('admin/cats/edit');
     }
     
     public function delete(Request $request)
