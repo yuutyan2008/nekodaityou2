@@ -1,6 +1,6 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.admin')
+@extends('layouts.adminっg')
 <!--titleセクション猫台帳検索を表示-->
 @section('title', '猫台帳検索')
 
@@ -98,9 +98,9 @@
                   </div>
                 </div>
     
->
-          </div>
-        </div>
+        </form>
+      </div>
+    </div>
         <!--一覧表示-->
 
     <div class="row">

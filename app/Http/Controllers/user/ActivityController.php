@@ -13,19 +13,19 @@ use App\Activity;
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-//imageの保存をS3になるよう変更
-use Storage;
+// //imageの保存をS3になるよう変更
+// use Storage;
 
 class ActivityController extends Controller
 {
 
   //フォームに入力する
-    public function add()
-    {
-        return view('user.activity.create');
-    }
+      public function add()
+      {
+          return view('user.activity.create');
+      }
 
-    //入力した文字をDBに保存する
+    入力した文字をDBに保存する
     public function create(Request $request)
     {
 
@@ -40,8 +40,8 @@ class ActivityController extends Controller
 
         // formに画像があれば、保存する
         if (isset($form['image'])) {
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $activity->image_path = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
+            $activity->image_path = basename($path);//画像名のみ保存するbasenameメソッド
         } else {
             $activity->image_path = null;
         }
@@ -54,22 +54,35 @@ class ActivityController extends Controller
       
         // データベースに保存する
         $activity->user_id = Auth::id();//ログインuserのidを取得して、activityのuser_idをDBに保存する時に代入して一緒に保存
+        
         $activity->fill($form);
         $activity->save();
 
-        return redirect('user/activity');
+        //送信前の画面へ戻る
+        return redirect()->back();
     }
     
     public function index(Request $request)
     {
        
         //Activity Modelを使って、データベースに保存されている、activityテーブルのレコードをすべて取得し、変数$postsに代入
-        $posts = Activity::all();
-    
+        $posts = Activity::all()->sortByDesc('updated_at');
+        
+        if (count($posts) > 0) {
+            /* shift:配列の最初のデータを削除し、その値を返すメソッド
+              削除した最新データを$headline（最新の投稿を格納）に代入
+              $posts（最新投稿以外を格納）
+              最新とそれ以外で表記を変えたいため
+            */
+            $headline = $posts->shift();
+        } else {
+            $headline = null;
+        }
+        
         /*
           index.blade.phpのファイルに取得したレコード（$posts）を渡し、ページを開く
           view(ファイル名, 使いたい配列)
         */
-        return view('user.activity.index', ['posts' => $posts]);
+        return view('user.activity.index', ['headline' => $headline, 'posts' => $posts]);
     }
 }

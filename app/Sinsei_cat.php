@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class sinsei_cats extends Model
+class Sinsei_cat extends Model
 {
 
     //$guardプロパティは入力フォームの値がnullでもエラーにならない保護設定。

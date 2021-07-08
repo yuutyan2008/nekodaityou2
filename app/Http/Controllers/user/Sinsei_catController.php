@@ -19,7 +19,6 @@ use Storage;
 class Sinsei_catController extends Controller
 {
     
-    
     //入力した文字をDBに保存する
     public function create(Request $request)
     {
@@ -27,7 +26,7 @@ class Sinsei_catController extends Controller
         $this->validate($request, Sinsei_cat::$rules);
         
         //newはCatモデルからインスタンス（レコード）を生成するメソッド
-        $Sinsei_cat = new Sinsei_cat;
+        $sinsei_cat = new Sinsei_cat;
         $form = $request->all();
     
         // formに画像があれば、保存する
@@ -35,7 +34,7 @@ class Sinsei_catController extends Controller
             $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
             $sinsei_cat->image_path = Storage::disk('s3')->url($path);
         } else {
-            $cat->image_path = null;
+            $sinsei_cat->image_path = null;
         }
     
         //フォームから送信された使用済トークンの削除
@@ -44,10 +43,16 @@ class Sinsei_catController extends Controller
         //フォームから送信された保存済画像の削除
         unset($form['image']);
         
-        // データベースに保存する
+        //$sinsei_cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
         $sinsei_cat->fill($form);
         $sinsei_cat->save();
         
         return redirect('admin/sinsei_cats/create');
+    }
+    
+    //フォームに入力する
+    public function add()
+    {
+        return view('user.sinsei_cats.create');
     }
 }

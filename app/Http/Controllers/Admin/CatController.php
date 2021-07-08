@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 
 use App\Cat;
 
+use App\Sinsei_cat;
+
 //Cathistorymodelを使用
 use App\Cathistory;
 
@@ -64,7 +66,7 @@ class CatController extends Controller
         $cat = new Cat;
         $form = $request->all();
     
-        // formに画像があれば、保存する
+        // formに画像があれば、S3へ保存する
         if (isset($form['image'])) {
             $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
             $cat->image_path = Storage::disk('s3')->url($path);
@@ -83,6 +85,44 @@ class CatController extends Controller
         $cat->save();
         
         return redirect('admin/cats/create');
+        
+        
+        
+        //sinsei_catsテーブルのデータを取得し、catsに保存
+
+        //newはCatモデルからインスタンス（レコード）を生成するメソッド
+        $Sinsei_cat = new Sinsei_cat;
+        $form = $request->all();
+        
+        // formに画像があれば、保存する
+        if (isset($form['image'])) {
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $sinsei_cat->image_path = Storage::disk('s3')->url($path);
+        } else {
+            $sinsei_cat->image_path = null;
+        }
+    
+        //フォームから送信された使用済トークンの削除
+        unset($form['_token']);
+        
+        //フォームから送信された保存済画像の削除
+        unset($form['image']);
+        
+        $sinsei_cat->fill($form);
+        
+        $cat->name = $sinsei_cat->updated_at->format('Y年m月d日');
+        $cat->tail = $sinsei_cat->tail;
+        $cat->hair = $sinsei_cat->hair;
+        $cat->gender = $sinsei_cat->gender;
+        $cat->area = $sinsei_cat->area;
+        $cat->attention = $sinsei_cat->attention;
+        $cat->remarks = $sinsei_cat->remarks;
+
+        //$sinsei_cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
+        $cat->save();
+        
+        //送信前の画面へ戻る
+        return redirect()->back();
     }
     
 

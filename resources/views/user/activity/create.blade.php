@@ -11,7 +11,6 @@
                 <h2>地域猫活動の投稿</h2>
             </div>
         </div>
-    <form>
         <div class="row">
 　　        <div class="col-md-4">
             <!--フォームの送信先を指定-->
@@ -42,13 +41,15 @@
             <div class="form-group row">
                 <label class="col-md-2" for="image_path">画像</label>
                 <div class="col-md-10">
-                    <input type="file" class="form-control-file" name="image_path">
+                    <input type="file" class="form-control-file" name="image">
                 </div>
             </div>
             {{ csrf_field() }}
             <input type="submit" class="btn btn-primary" value="投稿">
+            </form>
+            </div>
         </div>
-    </form>
+
     </div>
 
 @endsection
