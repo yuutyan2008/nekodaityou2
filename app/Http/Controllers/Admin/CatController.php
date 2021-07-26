@@ -6,17 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Cat;
-
 use App\Sinsei_cat;
 
-//Cathistorymodelを使用
+//Cathistory modelを使用
 use App\Cathistory;
 
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-//imageの保存をS3になるよう変更
-use Storage;
+// //imageの保存をS3になるよう変更
+// use Storage;
 
 class CatController extends Controller
 {
@@ -68,8 +67,10 @@ class CatController extends Controller
     
         // formに画像があれば、S3へ保存する
         if (isset($form['image'])) {
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $cat->image_path = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store('public/image');
+            $cats->image_path = basename($path);
+        // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            // $cat->image_path = Storage::disk('s3')->url($path);
         } else {
             $cat->image_path = null;
         }
@@ -80,24 +81,18 @@ class CatController extends Controller
         //フォームから送信された保存済画像の削除
         unset($form['image']);
         
-        // データベースに保存する
+        //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
         $cat->fill($form);
         $cat->save();
         
         return redirect('admin/cats/create');
-        
-        
-        
-        //sinsei_catsテーブルのデータを取得し、catsに保存
 
-        //newはCatモデルからインスタンス（レコード）を生成するメソッド
-        $Sinsei_cat = new Sinsei_cat;
-        $form = $request->all();
+
         
         // formに画像があれば、保存する
         if (isset($form['image'])) {
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $sinsei_cat->image_path = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
+            $sinsei_cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
         } else {
             $sinsei_cat->image_path = null;
         }
@@ -108,9 +103,8 @@ class CatController extends Controller
         //フォームから送信された保存済画像の削除
         unset($form['image']);
         
-        $sinsei_cat->fill($form);
-        
-        $cat->name = $sinsei_cat->updated_at->format('Y年m月d日');
+        $cat->updated_at = $sinsei_cat->updated_at->format('Y年m月d日');
+        $cat->name = $sinsei_cat->name;
         $cat->tail = $sinsei_cat->tail;
         $cat->hair = $sinsei_cat->hair;
         $cat->gender = $sinsei_cat->gender;
@@ -119,7 +113,7 @@ class CatController extends Controller
         $cat->remarks = $sinsei_cat->remarks;
 
         //$sinsei_cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
-        $cat->save();
+        $cat = $sinsei_cat->fill($form)->save();
         
         //送信前の画面へ戻る
         return redirect()->back();
@@ -157,9 +151,11 @@ class CatController extends Controller
             $cat_form['image_path'] = null;
         } elseif ($request->file('image')) {
             //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入//
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
-            $cat->image_path = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store('public/image');
+            $cats->image_path = basename($path);
+        // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            // //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
+            // $cat->image_path = Storage::disk('s3')->url($path);
         } else {
             $cat_form['image_path'] = $cat->image_path;
         }
@@ -170,26 +166,5 @@ class CatController extends Controller
     
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
         $cat->fill($cat_form)->save();
-        
-        //送信前の画面へ戻る
-        return redirect()->back();
-      
-        // //Cat model保存と同時に、User Modelにも編集履歴を追加(会員情報から編集履歴を参照できるようにする)
-        // $user = new User;
-        // //オブジェクト変数（インスタンス化されたUserクラス）からcat_idメソッドを呼び出す=catオブジェクトからidメソッドを呼び出す
-        // $user->cat_id = $cat->id;
-        // //Carbon:日付操作ライブラリで現在時刻を取得し、user Modelの edited_at として記録
-        // $user->edited_at = Carbon::now();
-        // $user->save();
-    }
-    
-    public function delete(Request $request)
-    {
-        // 該当するCat Modelを取得
-        // dd($request);
-        $cat = Cat::find($request->id);
-        // 削除する
-        $cat->delete();
-        return redirect('admin/cats/edit');
     }
 }

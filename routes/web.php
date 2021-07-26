@@ -76,13 +76,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('user/edit', 'Admin\UserController@edit');//会員情報一覧の編集ボタンを押す1とidを渡して編集画面へ
     Route::post('user/edit', 'Admin\UserController@update');//会員情報編集画面の編集ボタンを押すとidを渡して確認画面へ
 
-    Route::post('home', 'Admin\Sinsei_catController@index')->name('admin.sinsei_cats.index');//home画面のリンクボタンからuserの猫台帳登録申請一覧へ移動
-    Route::get('sinsei_cats/index', 'Admin\Sinsei_catController@index');// 猫台帳の新規作成申請一覧表示
-    Route::get('sinsei_cats/edit', 'Admin\Sinsei_catController@edit');//編集ボタンで編集画面へ移動
-    Route::post('sinsei_cats/edit', 'Admin\CatController@create');//編集画面の更新ボタンを押すとidを渡して更新
+
+
+    // Route::post('home', 'Admin\Sinsei_catController@index')->name('admin.sinsei_cats.index');//home画面のリンクボタンからuserの猫台帳登録申請一覧へ移動
+    
+    // Route::get('sinsei_cats/index', 'Admin\Sinsei_catController@index');// 猫台帳の新規作成申請一覧表示
+    // Route::post('sinsei_cats/index', 'Admin\Sinsei_catController@edit');// 編集ボタンを押したら申請用の編集画面へ
+    // // Route::post('sinsei_cats/index', 'Admin\Sinsei_catController@create');// 登録ボタンを押したらcatsテーブルに保存
     
     
-    Route::post('sinsei_cats/create', 'Admin\CatController@create');//登録ボタンでcatsテーブルのDBに追加
+    // Route::get('sinsei_cats/edit', 'Admin\Sinsei_catController@edit');//編集ボタンで猫台帳の編集画面へ移動
+    // Route::post('sinsei_cats/edit', 'Admin\Sinsei_catController@update');//編集画面の更新ボタンを押すとidを渡して更新
+    
+    
+    
+    // Route::post('sinsei_cats/create', 'Admin\CatController@create');//登録ボタンでcatsテーブルのDBに追加
+    
     
     
     Route::post('home', 'Admin\CatController@index')->name('admin.cats.index');//home画面の猫台帳一覧ボタンから猫台帳一覧表示へ

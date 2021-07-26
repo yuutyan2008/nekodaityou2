@@ -1,6 +1,6 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.adminっg')
+@extends('layouts.admin')
 <!--titleセクション猫台帳検索を表示-->
 @section('title', '猫台帳検索')
 

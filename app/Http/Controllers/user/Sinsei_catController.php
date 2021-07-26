@@ -10,11 +10,12 @@ use App\Sinsei_cat;
 //Cathistorymodelを使用
 use App\Cathistory;
 
+
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-//imageの保存をS3になるよう変更
-use Storage;
+// //imageの保存をS3になるよう変更
+// use Storage;
 
 class Sinsei_catController extends Controller
 {
@@ -31,8 +32,8 @@ class Sinsei_catController extends Controller
     
         // formに画像があれば、保存する
         if (isset($form['image'])) {
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $sinsei_cat->image_path = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
+            $sinsei_cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
         } else {
             $sinsei_cat->image_path = null;
         }
@@ -47,7 +48,7 @@ class Sinsei_catController extends Controller
         $sinsei_cat->fill($form);
         $sinsei_cat->save();
         
-        return redirect('admin/sinsei_cats/create');
+        return redirect('user/sinsei_cats/create');
     }
     
     //フォームに入力する

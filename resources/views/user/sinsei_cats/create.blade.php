@@ -22,14 +22,14 @@
                 </ul>
             @endif
             <div class="form row">
-                <div class="form-group col-md-6">
-                    <label class="col-md-2" for="name">猫の名前</label>
+                <div class="form-group col-md-2">
+                    <label class="col-md-6" for="name">猫の名前</label>
                         <!--old（変数名)は入力エラーで画面が戻された時も自動で入れ直す-->
                         <input type="text" class="form-control" name="name" value="{{ old('name') }}">
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-1">
                     <label for="tail">しっぽの長さ</label>
                         <select name="tail" class="custom-select">
                             <option selected>しっぽの長さを選んでください</option>
@@ -39,7 +39,7 @@
                         </select>
                 
                 </div>
-                <div class="form-group col-md-5">
+                <div class="form-group col-md-1">
                     <label for="hair">毛の模様</label>
                         <select name="hair" class="custom-select">
                             <option selected>毛の模様を選んでください</option>
@@ -55,7 +55,7 @@
                             <option value="その他">その他</option>
                         </select>
                 </div>
-                <div class="form-group col-md-2">
+                <div class="form-group col-md-1">
                     <label for="gender">性別</label>    
                         <select name="gender" class="custom-select">
                             <option selected>性別を選んでください</option>
@@ -63,40 +63,48 @@
                             <option value="メス">メス</option>
                         </select>
                 </div>
-            </div>
-            <div class="form-group row">
-              <div class="form-group col-md-6">
-                <label for="area">居住エリア</label>
-                    <select name="area" class="custom-select">
-                        <option selected>居住エリアを選んでください</option>
-                        <option value="農獣塔前">農獣塔前</option>
-                        <option value="体育館裏">体育館裏</option>
-                        <option value="図書館付近">図書館付近</option>
-                        <option value="教育学部塔付近">教育学部塔付近</option>
-                        <option value="ビオトープ">ビオトープ</option>
-                    </select>
+
+                <div class="form-group col-md-2">
+                    <label for="area">居住エリア</label>
+                        <select name="area" class="custom-select">
+                            <option selected>居住エリアを選んでください</option>
+                            <option value="農獣塔前">農獣塔前</option>
+                            <option value="体育館裏">体育館裏</option>
+                            <option value="図書館付近">図書館付近</option>
+                            <option value="教育学部塔付近">教育学部塔付近</option>
+                            <option value="ビオトープ">ビオトープ</option>
+                        </select>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label for="attention">注意事項</label>
+                  
+                        <select name="attention" class="custom-select">
+                            <option selected>注意事項を選んでください</option>
+                            <option value="避妊去勢済">避妊去勢済</option>
+                            <option value="病気の可能性">病気の可能性</option>
+                            <option value="怪我をしている">怪我をしている</option>
+                            <option value="妊娠の可能性">妊娠の可能性</option>
+                            <option value="譲渡できそう">譲渡できそう</option>
+                        </select>
                 </div>
             </div>
-            <div class="form-group col-md-6">
-                <label for="attention">注意事項</label>
-              
-                    <select name="attention" class="custom-select">
-                        <option selected>注意事項を選んでください</option>
-                        <option value="避妊去勢済">避妊去勢済</option>
-                        <option value="病気の可能性">病気の可能性</option>
-                        <option value="怪我をしている">怪我をしている</option>
-                        <option value="妊娠の可能性">妊娠の可能性</option>
-                        <option value="譲渡できそう">譲渡できそう</option>
-                    </select>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-2" for="image_path">画像</label>
-                <div class="col-md-10">
-                    <input type="file" class="form-control-file" name="image_path">
+            <div class="form row">
+                <div class="form-group col-md-4">
+                    <label class="col-md-6" for="remarks">備考欄</label>
+                        <!--old（変数名)は入力エラーで画面が戻された時も自動で入れ直す-->
+                        <input type="text" class="form-control" name="remarks" value="{{ old('remarks') }}">
                 </div>
             </div>
-            {{ csrf_field() }}
-            <input type="submit" class="btn btn-primary" value="管理者に新規登録を申請">
+
+                <div class="form-group row">
+                    <label class="col-md-2" for="image_path">画像</label>
+                    <div class="col-md-10">
+                        <input type="file" class="form-control-file" name="image_path">
+                    </div>
+                </div>
+                {{ csrf_field() }}
+                <input type="submit" class="btn btn-primary" value="管理者に新規登録を申請">
         </form>
     </div>
 
