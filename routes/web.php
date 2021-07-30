@@ -39,8 +39,8 @@ Route::group(['middleware' => 'auth:user'], function () {
     Route::get('/home', 'user\HomeController@index')->name('home');//マルチ認証
     Route::get('user/cats/index', 'user\CatController@index');//検索画面と結果の表示
     
-    Route::get('user/sinsei_cats/create', 'user\Sinsei_catController@add');//猫台帳登録フォームに入力
-    Route::post('user/sinsei_cats/create', 'user\Sinsei_catController@create');//猫台帳新規作成申請ボタンでDB追加
+    Route::get('user/cats/create', 'user\CatController@add');//猫台帳登録フォームに入力
+    Route::post('user/cats/create', 'user\CatController@create');//猫台帳新規作成申請ボタンでDB追加
     
     Route::get('user/activity/create', 'user\ActivityController@add');//猫活動フォームに入力
     Route::post('user/activity/create', 'user\ActivityController@create');//送信ボタンでDBに追加

@@ -64,16 +64,23 @@ class CatController extends Controller
         //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
         $form = $request->all();
-    
-        // formに画像があれば、S3へ保存する
+        
+        // formに画像があれば、保存する
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');
-            $cats->image_path = basename($path);
-        // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            // $cat->image_path = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
+            $cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
         } else {
             $cat->image_path = null;
         }
+        // // formに画像があれば、S3へ保存する
+        // if (isset($form['image'])) {
+        //     $path = $request->file('image')->store('public/image');
+        //     $cats->image_path = basename($path);
+        // // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+        //     // $cat->image_path = Storage::disk('s3')->url($path);
+        // } else {
+        //     $cat->image_path = null;
+        // }
     
         //フォームから送信された使用済トークンの削除
         unset($form['_token']);
@@ -86,37 +93,6 @@ class CatController extends Controller
         $cat->save();
         
         return redirect('admin/cats/create');
-
-
-        
-        // formに画像があれば、保存する
-        if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $sinsei_cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
-        } else {
-            $sinsei_cat->image_path = null;
-        }
-    
-        //フォームから送信された使用済トークンの削除
-        unset($form['_token']);
-        
-        //フォームから送信された保存済画像の削除
-        unset($form['image']);
-        
-        $cat->updated_at = $sinsei_cat->updated_at->format('Y年m月d日');
-        $cat->name = $sinsei_cat->name;
-        $cat->tail = $sinsei_cat->tail;
-        $cat->hair = $sinsei_cat->hair;
-        $cat->gender = $sinsei_cat->gender;
-        $cat->area = $sinsei_cat->area;
-        $cat->attention = $sinsei_cat->attention;
-        $cat->remarks = $sinsei_cat->remarks;
-
-        //$sinsei_cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
-        $cat = $sinsei_cat->fill($form)->save();
-        
-        //送信前の画面へ戻る
-        return redirect()->back();
     }
     
 

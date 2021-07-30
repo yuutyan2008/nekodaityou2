@@ -20,12 +20,12 @@ class ActivityController extends Controller
 {
 
   //フォームに入力する
-      public function add()
-      {
-          return view('user.activity.create');
-      }
+    public function add()
+    {
+        return view('user.activity.create');
+    }
 
-    入力した文字をDBに保存する
+    //入力した文字をDBに保存する
     public function create(Request $request)
     {
 

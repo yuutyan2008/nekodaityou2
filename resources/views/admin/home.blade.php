@@ -7,10 +7,6 @@
             <div class="card">
                 <div class="card-header">選んでください</div>
                 <div class="card-body">
-                  <a href ="/admin/sinsei_cats/index">猫台帳新規登録申請一覧</a>
-                </div>
-
-                <div class="card-body">
                   <a href ="/admin/cats/index">猫台帳一覧</a>
                 </div>
                 <div class="card-body">

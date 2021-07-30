@@ -13,8 +13,8 @@ use App\Cathistory;
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-//imageの保存をS3になるよう変更
-use Storage;
+// //imageの保存をS3になるよう変更
+// use Storage;
 
 class CatController extends Controller
 {
@@ -22,18 +22,18 @@ class CatController extends Controller
     public function create(Request $request)
     {
         //controllerのVaridationメソッドを呼び出す。Catディレクトリの$rules変数を検証する
-        $this->validate($request, Sinsei_cat::$rules);
+        $this->validate($request, Cat::$rules);
         
         //newはCatモデルからインスタンス（レコード）を生成するメソッド
-        $sinsei_cat = new Sinsei_cat;
+        $cat = new Cat;
         $form = $request->all();
     
         // formに画像があれば、保存する
         if (isset($form['image'])) {
             $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $sinsei_cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
+            $cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
         } else {
-            $sinsei_cat->image_path = null;
+            $cat->image_path = null;
         }
     
         //フォームから送信された使用済トークンの削除
@@ -42,17 +42,17 @@ class CatController extends Controller
         //フォームから送信された保存済画像の削除
         unset($form['image']);
         
-        //$sinsei_cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
-        $sinsei_cat->fill($form);
-        $sinsei_cat->save();
+        //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
+        $cat->fill($form);
+        $cat->save();
         
-        return redirect('user/sinsei_cats/create');
+        return view('user/cats/create');
     }
     
     //フォームに入力する
     public function add()
     {
-        return view('user.sinsei_cats.create');
+        return view('user.cats.create');
     }
   
     //猫台帳検索、一覧表示
@@ -80,6 +80,6 @@ class CatController extends Controller
          view(ファイル名, 使いたい配列)
         */
         // dd($posts, $cond_title);
-        return view('auth.cats.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+        return view('user.cats.index', ['posts' => $posts, 'cond_title' => $cond_title]);
     }
 }

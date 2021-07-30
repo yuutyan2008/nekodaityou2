@@ -1,6 +1,6 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名 . ファイル名-->
-@extends('layouts.admin')
+@extends('layouts.front')
 <!--titleセクションに猫台帳の新規作成を表示
 @section('title', '猫台帳の新規作成')
 
@@ -15,7 +15,7 @@
         <div class="form row">
             <div class="col-md-12">
                 <!--フォームの送信先を指定-->
-                <form action="{{ action('Admin\CatController@create') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ action('user\CatController@create') }}" method="post" enctype="multipart/form-data">
                     <!--エラーの数だけ$eに入れて$eを表示-->
                     @if (count($errors) > 0)
                         <ul>
