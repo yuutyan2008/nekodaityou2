@@ -28,6 +28,19 @@ class Cat extends Model
         'area' => 'required',
     );
     
+    
+    // CatsとCathistoriesは１対多の関係
+    public function cathistories()
+    {
+        return $this->hasMany('App\Cathistory');
+    }
+    
+    //userとcatは多対多の関係
+    public function users()
+    {
+        return $this->belongsToMany('App\Users');
+    }
+    
     // /**
     //  * catに属する注意事項を取得(多対多のリレーション定義)
     //  * attentionとcatは多対多の関係

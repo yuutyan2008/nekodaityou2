@@ -22,7 +22,7 @@ class CreateCatsTable extends Migration
             $table->string('gender')->comment('性別')->nullable();
             $table->string('area')->comment('居住エリア');
             $table->string('attention')->comment('注意事項')->nullable();
-            
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             $table->string('remarks')->comment('備考欄')->nullable();
@@ -30,13 +30,8 @@ class CreateCatsTable extends Migration
             // 画像のパスを保存するカラム
             $table->string('image_path')->nullable();
             
-
-            // //外部キーの設定
-            // $table->foreign('tail_id')->references('id')->on('tails')->onDelete('cascade');
-            // $table->foreign('hair_id')->references('id')->on('hairs')->onDelete('cascade');
-            // $table->foreign('gender_id')->references('id')->on('genders')->onDelete('cascade');
-            // $table->foreign('area_id')->references('id')->on('areas')->onDelete('cascade');
-            // $table->foreign('attention_id')->references('id')->on('attentions')->onDelete('cascade');
+            // 外部キ
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

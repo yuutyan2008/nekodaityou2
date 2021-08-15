@@ -11,19 +11,19 @@
                 <h2>猫台帳の新規作成</h2>
             </div>
         </div>
-    <form>
+    <!--フォームの送信先を指定-->
+    <form action="{{ action('Admin\CatController@create') }}" method="post" enctype="multipart/form-data">
+        <!--エラーの数だけ$eに入れて$eを表示-->
+        @if (count($errors) > 0)
+            <ul>
+                @foreach($errors->all() as $e)
+                    <li>{{ $e }}</li>
+                @endforeach
+            </ul>
+        @endif
+
         <div class="form row">
             <div class="col-md-12">
-                <!--フォームの送信先を指定-->
-                <form action="{{ action('Admin\CatController@create') }}" method="post" enctype="multipart/form-data">
-                    <!--エラーの数だけ$eに入れて$eを表示-->
-                    @if (count($errors) > 0)
-                        <ul>
-                            @foreach($errors->all() as $e)
-                                <li>{{ $e }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
             </div>
         </div>
         <div class="form row">

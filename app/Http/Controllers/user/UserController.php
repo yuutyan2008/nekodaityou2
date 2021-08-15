@@ -100,7 +100,7 @@ class ProfileController extends Controller
     // add, create, edit, updateプロパティを追加
     public function add()
     {
-        return view('admin.profile.create');
+        return view('user.profile.create');
     }
 
     //userとサーバー間で相互情報のやりとりを管理するrequest/responceクラス

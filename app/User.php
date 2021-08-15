@@ -39,11 +39,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
-    //belongingとuserは1対多の関係
-    public function belonging()
-    {
-        return $this->belongsTo('App\Belonging');
-    }
+    // //belongingとuserは1対多の関係
+    // public function belonging()
+    // {
+    //     return $this->belongsTo('App\Belonging');
+    // }
     
     //userとactivityは１対多の関係
     public function activities()
@@ -51,6 +51,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Activity');
     }
     
+    //userとcatは多対多の関係
+    public function users()
+    {
+        return $this->belongsToMany('App\Cat');
+    }
+
+    //userとcathistoryは１対多の関係
+    public function cathistories()
+    {
+        return $this->hasMany('App\Cathistory');
+    }
+   
     
     //validation設定。guardをかけてModelで値を用意しなくても保存できるよう保護する
     protected $guarded = array('id');

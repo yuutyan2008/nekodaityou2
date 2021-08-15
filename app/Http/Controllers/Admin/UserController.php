@@ -55,13 +55,13 @@ class UserController extends Controller
         // 変更した配列を上書きしてカラムに保存するfillメソッド
         $user->fill($user_form)->save();
       
-        // //Cat model保存と同時に、User Modelにも編集履歴を追加(会員情報から編集履歴を参照できるようにする)
-        // $user = new User;
-        // //オブジェクト変数（インスタンス化されたUserクラス）からcat_idメソッドを呼び出す=catオブジェクトからidメソッドを呼び出す
-        // $user->cat_id = $cat->id;
-        // //Carbon:日付操作ライブラリで現在時刻を取得し、user Modelの edited_at として記録
-        // $user->edited_at = Carbon::now();
-        // $user->save();
+        //Cat model保存と同時に、User Modelにも編集履歴を追加(会員情報から編集履歴を参照できるようにする)
+        $user = new User;
+        //オブジェクト変数（インスタンス化されたUserクラス）からcat_idメソッドを呼び出す=catオブジェクトからidメソッドを呼び出す
+        $user->cat_id = $cat->id;
+        //Carbon:日付操作ライブラリで現在時刻を取得し、user Modelの edited_at として記録
+        $user->edited_at = Carbon::now();
+        $user->save();
     
         //送信前の画面へ戻る
         return redirect()->back();

@@ -14,16 +14,15 @@ class CreateAdminsCatsTable extends Migration
     public function up()
     {
         Schema::create('admins_cats', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->autoIncrement();
             $table->timestamps();
             
-            $table->unsignedBigInteger('admin_id')->comment('管理者ID');//外部キー
-            $table->unsignedBigInteger('cat_id')->comment('猫ID');//外部キー
+            $table->BigInteger('admin_id')->unsigned();
+            $table->BigInteger('cat_id')->unsigned();
             
-            // 外部キー制約
+            // 外部キー
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
-            
         });
     }
 
@@ -34,6 +33,7 @@ class CreateAdminsCatsTable extends Migration
      */
     public function down()
     {
+        //テーブルの削除
         Schema::dropIfExists('admins_cats');
     }
 }

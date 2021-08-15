@@ -35,6 +35,13 @@ class ActivityController extends Controller
         // activityクラスのインスタンス作成
         $activity = new Activity;
         
+
+        //ログインuserのidを取得して、activityのuser_idをDBに保存する時に代入して一緒に保存
+        $activity->user_id = Auth::id();
+        
+        //$activity呼び出して、フォームに入力した内容を全て入力（更新）、そしてデータベースに保存
+        $activity->fill($form);
+        $activity->save();
         //
         $form = $request->all();
 
@@ -51,13 +58,7 @@ class ActivityController extends Controller
       
         //フォームから送信された保存済画像の削除
         unset($form['image']);
-      
-        // データベースに保存する
-        $activity->user_id = Auth::id();//ログインuserのidを取得して、activityのuser_idをDBに保存する時に代入して一緒に保存
         
-        $activity->fill($form);
-        $activity->save();
-
         //送信前の画面へ戻る
         return redirect()->back();
     }
@@ -84,5 +85,15 @@ class ActivityController extends Controller
           view(ファイル名, 使いたい配列)
         */
         return view('user.activity.index', ['headline' => $headline, 'posts' => $posts]);
+    }
+    
+    public function delete(Request $request)
+    {
+        // 該当するactivity Modelを取得
+        // dd($request);
+        $actvity = Activity::find($request->id);
+        // 削除する
+        $activity->delete();
+        return redirect('user/activity/');
     }
 }

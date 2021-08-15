@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('UserID');
+            $table->bigIncrements('id')->comment('user_id');
             $table->string('name')->comment('User名');
             $table->string('email')->unique()->comment('メールアドレス');
             //timestampメソッド：Blueprintにより作成日時と更新日時を自動設定
@@ -24,11 +24,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
             $table->unsignedBigInteger('belonging')->default(0)->comment('所属');
-
-
-            // //外部キー制約
-            // $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
-            // $table->foreign('belonging_id')->references('id')->on('belongings')->onDelete('cascade');
         });
     }
 

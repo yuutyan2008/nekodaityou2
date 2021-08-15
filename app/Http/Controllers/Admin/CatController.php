@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Cat;
-use App\Sinsei_cat;
 
 //Cathistory modelを使用
 use App\Cathistory;
@@ -39,6 +38,7 @@ class CatController extends Controller
             */
             $posts = Cat::all()->sortByDesc('updated_at');
         }
+        
         /*
          index.blade.phpのファイルに取得したレコード（$posts）と、
          ユーザーが入力した文字列（$cond_title）を渡し、ページを開く

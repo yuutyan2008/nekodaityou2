@@ -1,6 +1,6 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.admin')
+@extends('layouts.front')
 <!--titleセクション会員一覧を表示-->
 @section('title', '会員一覧')
 
@@ -36,7 +36,6 @@
                         <td>{{str_limit($user->belonging, 20)}}</td>
                         <td>{{str_limit($user->email, 20)}}</td>
                         <td>
-
                           <div>
                               <a href="{{ action('Admin\UserController@edit', ['id' => $user->id]) }}">編集</a>
                           </div>                          

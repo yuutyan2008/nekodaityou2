@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCatsUsersTable extends Migration
+class CreateActivityhistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,17 @@ class CreateCatsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('cats_users', function (Blueprint $table) {
+        Schema::create('activityhistories', function (Blueprint $table) {
             $table->bigIncrements('id')->autoIncrement();
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('cat_id')->unsigned();
+            $table->bigInteger('activitiy_id')->unsigned();
+            
+            $table->string('edited_at');
             $table->timestamps();
             
             // 外部キー
+            $table->foreign('activitiy_id')->references('id')->on('activities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
         });
     }
 
@@ -32,6 +34,11 @@ class CreateCatsUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cats_users');
+        Schema::dropIfExists('activityhistories');
+
+        // //カラムの削除
+        // Schema::table('activityhistories', function (Blueprint $table) {
+        //     $table->dropForeign('ctivityhistories_user_id_foreign');
+        // });
     }
 }
