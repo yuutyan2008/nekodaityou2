@@ -15,7 +15,7 @@ class CreateCatsTable extends Migration
     public function up()
     {
         Schema::create('cats', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('猫ID');
+            $table->bigIncrements('id')->autoIncrement()->comment('猫ID');
             $table->string('name')->comment('猫の名前');
             $table->string('tail')->comment('しっぽの長さ')->nullable();
             $table->string('hair')->comment('毛の模様');

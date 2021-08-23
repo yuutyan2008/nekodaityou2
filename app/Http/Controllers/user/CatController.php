@@ -50,11 +50,17 @@ class CatController extends Controller
         //ログインuserのidを取得して、DBに保存時catテーブルにuser_idを代入して一緒に保存
         $cat->user_id = Auth::id();
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）
-        $cat->fill($form);
+        $cat->fill($form)->save();
+         
         
-        //saveメソッドでレコードをDBに保存
-        $cat->save();
-        
+
+        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
+        $cathistory = new Cathistory;
+        $cathistory->cat_id = $cat->id;
+        $cathistory->user_id = $cat->user_id;
+        $cathistory->updated_at = Carbon::now();
+        $cathistory->save();
+        // dd($cathistory);
         return view('user/cats/create');
     }
     
@@ -117,8 +123,9 @@ class CatController extends Controller
 
         //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
         $cathistory = new Cathistory;
-        $cathistory->cats_id->user_id = $cats->id;
-        $cathistory->edited_at = Carbon::now();
+        $cathistory->cat_id = $cat->id;
+        $cathistory->user_id = $cat->user_id;
+        $cathistory->updated_at = Carbon::now();
         $cathistory->save();
 
         return redirect('user/cats/index');

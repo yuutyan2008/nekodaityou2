@@ -15,14 +15,13 @@ class CreateCathistoriesTable extends Migration
     {
         Schema::create('cathistories', function (Blueprint $table) {
             $table->bigIncrements('id')->autoIncrement();
-            $table->bigInteger('cat_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
-            // $table->string('updated_at');
-            $table->timestamps();
-            
-            // 外部キー
-            $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('cat_id')->unsigned();
+            $table->foreign('cat_id')->references('id')->on('cats')->onDelete('cascade');
+            
+                    
+            $table->timestamps();
         });
     }
 

@@ -11,7 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Authenticatable
 {
     use Notifiable;
-
+    
+    //$guardプロパティは入力フォームの値がnullでもエラーにならない保護設定。
+    //idフィールドはデータベースで自動的に番号が入るため、Modelで設定しない
+    protected $guarded = array('id');
+    
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -63,9 +68,7 @@ class User extends Authenticatable
         return $this->hasMany('App\Cathistory');
     }
    
-    
-    //validation設定。guardをかけてModelで値を用意しなくても保存できるよう保護する
-    protected $guarded = array('id');
+
     
     public static $rules = array(
          'name' => 'required',

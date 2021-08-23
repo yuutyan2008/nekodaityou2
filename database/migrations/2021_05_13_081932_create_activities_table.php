@@ -19,7 +19,12 @@ class CreateActivitiesTable extends Migration
             $table->string('content')->comment('活動内容');
             $table->string('image_path')->nullable();  // 画像のパスを保存するカラム
             $table->timestamps();
-            $table->bigInteger('user_id')->comment('userID');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('admin_id')->unsigned();
+            
+            // 外部キ
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 

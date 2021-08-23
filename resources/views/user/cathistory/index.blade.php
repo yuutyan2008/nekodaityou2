@@ -16,11 +16,11 @@
         <!--一覧表示-->
 
     <div class="row">
-   
-      <div class="col-md-12">
-        <table class="table table-striped">
-          <thead>
-              <tr>
+      <form action="{{ route('cathistory.index') }}" method="get" enctype="multipart/form-data">         
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+                <tr>
                   <th width="5%">クリックして選択</th>
                   <th width="5%">更新日</th>
                   <th width="5%">猫の名前</th>
@@ -32,37 +32,33 @@
                   <th width="20%">備考欄</th>
                   <th width="30%">画像</th>
                   <th width="10%"></th>
-                  
-                  
-                  
               </tr>
-          </thead>
-            <!--posts配列catとして受け取ったレコードデータを順に出力していく-->
-            <tbody>
-                @foreach($cathistory as $cathis)
-
-                    <tr>
-                        <td>{{ $cathis->updated_at->format('Y年m月d日') }}</td>
-                        <td>{{str_limit($cathis->name, 20)}}</td>
-                        <td>{{str_limit($cathis->tail, 20)}}</td>
-                        <td>{{str_limit($cathis->hair, 20)}}</td>
-                        <td>{{str_limit($cathis->gender, 10)}}</td>
-                        <td>{{str_limit($cathis->area, 20)}}</td>
-                        <td>{{str_limit($cathis->attention, 30)}}</td>
-                        <td>{{str_limit($cathis->remarks, 20)}}</td>
-                        @if ($cathis->image_path)
-                          <td><img src="{{ $cathis->image_path }}">
-                        @endif
-                        <td>
-                          <div>
-                              <a href="{{ action('User\CathisotryController@edit', ['id' => $user->id]) }}">編集</a>
-                          </div>                          
-                        </td>
-                    </tr>
-
+            </thead>
+              <!--posts配列catとして受け取ったレコードデータを順に出力していく-->
+              <tbody>
+                @foreach($cathistory as $c)
+                  <tr>
+                    <td>{{ $c->updated_at->format('Y年m月d日') }}</td>
+                    <td>{{str_limit($c->name, 20)}}</td>
+                    <td>{{str_limit($c->tail, 20)}}</td>
+                    <td>{{str_limit($c->hair, 20)}}</td>
+                    <td>{{str_limit($c->gender, 10)}}</td>
+                    <td>{{str_limit($c->area, 20)}}</td>
+                    <td>{{str_limit($c->attention, 30)}}</td>
+                    <td>{{str_limit($c->remarks, 20)}}</td>
+                    @if ($c->image_path)
+                      <td><img src="{{ $c->image_path }}">
+                    @endif
+                    <td>
+                      <div>
+                        <a href ="/user/cathistory/index, ['id' => $c->id]) }}">編集</a>
+                      </div>                          
+                    </td>
+                  </tr>
                 @endforeach
-            </tbody>
-        </table>
-      </div>
+              </tbody>
+          </table>
+        </div>
+      </form>
     </div>
 @endsection

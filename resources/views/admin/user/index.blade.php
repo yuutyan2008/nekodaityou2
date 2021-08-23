@@ -1,6 +1,6 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.front')
+@extends('layouts.admin')
 <!--titleセクション会員一覧を表示-->
 @section('title', '会員一覧')
 
