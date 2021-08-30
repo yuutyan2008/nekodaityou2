@@ -14,16 +14,16 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('user_id');
-            $table->string('name')->comment('User名');
-            $table->string('email')->unique()->comment('メールアドレス');
+            $table->bigIncrements('id');
+            $table->string('name');
+            $table->string('email')->unique();
             //timestampメソッド：Blueprintにより作成日時と更新日時を自動設定
             //メールの認証機能。登録確認メール受信で日時が自動入力される
-            $table->timestamp('email_verified_at')->nullable()->comment('メールアドレス確認用');
-            $table->string('password')->comment('パスワード');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
             $table->rememberToken();//ログイン情報を保持
             $table->timestamps();
-            $table->unsignedBigInteger('belonging')->default(0)->comment('所属');
+            $table->unsignedBigInteger('belonging')->default(0);
         });
     }
 

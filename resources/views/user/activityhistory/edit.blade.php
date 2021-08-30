@@ -1,16 +1,16 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.admin')
+@extends('layouts.front')
 <!--titleセクション猫台帳編集画面を表示-->
-@section('title', '猫台帳の編集')
+@section('title', '猫活動履歴の編集')
 
 @section('content')
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <h2>猫台帳の編集</h2>
-        <!--フォームの送信先を指定-->
-        <form action="{{ route('admin.cats.edit') }}" method="post" enctype="multipart/form-data">
+        <h2>猫活動履歴の編集</h2>
+        <!--routing：activityhistory.editにリクエストを送る-->
+        <form action= "{{ action('ActivityhistoryController@edit') }}" method="get" enctype="multipart/form-data">
           <!--$errors~validationで弾かれた内容が記憶された配列~の数があるなら-->
           @if (count($errors) > 0)
             <ul>

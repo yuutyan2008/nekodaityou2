@@ -2,7 +2,7 @@
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
 @extends('layouts.front')
 <!--titleセクションを表示-->
-@section('title', '自分の猫台帳登録履歴')
+@section('title', '自分の猫台帳')
 
 @section('content')
   <div class="container-fluid">
@@ -12,9 +12,7 @@
       </div>
     </div>
   </div>
-
-        <!--一覧表示-->
-
+    <!--一覧表示-->
     <div class="row">
       <form action="{{ route('cathistory.index') }}" method="get" enctype="multipart/form-data">         
         <div class="col-md-12">
@@ -51,7 +49,7 @@
                     @endif
                     <td>
                       <div>
-                        <a href ="/user/cathistory/index, ['id' => $c->id]) }}">編集</a>
+                        <a href ="{{ route('cathistory.edit', ['id' => $c->id]) }}">編集</a>
                       </div>                          
                     </td>
                   </tr>

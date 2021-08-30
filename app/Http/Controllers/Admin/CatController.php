@@ -23,7 +23,7 @@ class CatController extends Controller
     public function index(Request $request)
     {
     
-        //$requestの中の検索欄へのuser入力値cond_titleのを、変数cond_titleに代入
+        //$requestの中の検索欄へのadmin入力値cond_titleのを、変数cond_titleに代入
         $cond_title = $request->cond_title;
        
         //検索欄が空欄でなければ（検索された場合）
@@ -92,6 +92,19 @@ class CatController extends Controller
         $cat->fill($form);
         $cat->save();
         
+        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
+        $cathistory = new Cathistory;
+        $cathistory->cat_id = $cat->id;
+        $cathistory->admin_id = $cat->admin_id;
+        $cathistory->name = $cat->name;
+        $cathistory->tail = $cat->tail;
+        $cathistory->hair = $cat->hair;
+        $cathistory->gender = $cat->gender;
+        $cathistory->area = $cat->area;
+        $cathistory->attention = $cat->attention;
+        $cathistory->updated_at = Carbon::now();
+        $cathistory->save();
+        
         return redirect('admin/cats/create');
     }
     
@@ -104,7 +117,7 @@ class CatController extends Controller
         if (empty($cat)) {
             abort(404);
         }
-        return view('admin.cats.edit', ['cat_form' => $cat]);//user入力データが格納されたcat_formから、データをcatに格納して
+        return view('admin.cats.edit', ['cat_form' => $cat]);//admin入力データが格納されたcat_formから、データをcatに格納して
     }
     
     //編集画面から送信されたフォームデータを処理
@@ -142,5 +155,20 @@ class CatController extends Controller
     
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
         $cat->fill($cat_form)->save();
+        
+        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
+        $cathistory = new Cathistory;
+        $cathistory->cat_id = $cat->id;
+        $cathistory->admin_id = $cat->admin_id;
+        $cathistory->name = $cat->name;
+        $cathistory->tail = $cat->tail;
+        $cathistory->hair = $cat->hair;
+        $cathistory->gender = $cat->gender;
+        $cathistory->area = $cat->area;
+        $cathistory->attention = $cat->attention;
+        $cathistory->updated_at = Carbon::now();
+        $cathistory->save();
+        
+        return redirect('admin/cats');
     }
 }

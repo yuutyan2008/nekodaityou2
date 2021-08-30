@@ -16,7 +16,7 @@
   <div class="row">
     <div class="col-md-12">
       <!--フォームの送信先を指定-->
-      <form action="{{ action('Admin\CatController@edit') }}" method="post" enctype="multipart/form-data">
+      <form action="{{ route('get.cats.index')}}" method="post" enctype="multipart/form-data">
           <div class="form row">
             <div class="form-group col-md-6">
             　<label class="col-md-2">猫の名前</label>
@@ -93,55 +93,56 @@
               <button type="submit" class="btn btn-primary">検索</button>
             </div>
           </div>
+      
+
+          <!--一覧表示-->
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th width="5%">クリックして選択</th>
+                    <th width="5%">更新日</th>
+                    <th width="5%">猫の名前</th>
+                    <th width="5%">しっぽの長さ</th>
+                    <th width="5%">毛の模様</th>
+                    <th width="5%">性別</th>
+                    <th width="5%">居住エリア</th>
+                    <th width="10%">注意事項</th>
+                    <th width="20%">備考欄</th>
+                    <th width="30%">画像</th>
+                    <th width="10%"></th>
+                  </tr>
+                </thead>
+                  <!--posts配列catとして受け取ったレコードデータを順に出力していく-->
+                  <tbody>
+                      @foreach($posts as $cat)
+      
+                          <tr>
+                              <td>{{ $cat->updated_at->format('Y年m月d日') }}</td>
+                              <td>{{str_limit($cat->name, 20)}}</td>
+                              <td>{{str_limit($cat->tail, 20)}}</td>
+                              <td>{{str_limit($cat->hair, 20)}}</td>
+                              <td>{{str_limit($cat->gender, 10)}}</td>
+                              <td>{{str_limit($cat->area, 20)}}</td>
+                              <td>{{str_limit($cat->attention, 30)}}</td>
+                              <td>{{str_limit($cat->remarks, 20)}}</td>
+                              @if ($cat->image_path)
+                                <td><img src="{{ $cat->image_path }}">
+                              @endif
+                              <td>
+                                <div>
+                                    <a href="{{ route('post.cats.edit', ['id' => $cat->id]) }}">編集</a>
+                                </div>  
+                              </td>
+                          </tr>
+      
+                      @endforeach
+                  </tbody>
+              </table>
+            </div>
+          </div>
       </form>
-    </div>
-  </div>
-  <!--一覧表示-->
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th width="5%">クリックして選択</th>
-              <th width="5%">更新日</th>
-              <th width="5%">猫の名前</th>
-              <th width="5%">しっぽの長さ</th>
-              <th width="5%">毛の模様</th>
-              <th width="5%">性別</th>
-              <th width="5%">居住エリア</th>
-              <th width="10%">注意事項</th>
-              <th width="20%">備考欄</th>
-              <th width="30%">画像</th>
-              <th width="10%"></th>
-            </tr>
-        </thead>
-            <!--posts配列catとして受け取ったレコードデータを順に出力していく-->
-            <tbody>
-                @foreach($posts as $cat)
-
-                    <tr>
-                        <td>{{ $cat->updated_at->format('Y年m月d日') }}</td>
-                        <td>{{str_limit($cat->name, 20)}}</td>
-                        <td>{{str_limit($cat->tail, 20)}}</td>
-                        <td>{{str_limit($cat->hair, 20)}}</td>
-                        <td>{{str_limit($cat->gender, 10)}}</td>
-                        <td>{{str_limit($cat->area, 20)}}</td>
-                        <td>{{str_limit($cat->attention, 30)}}</td>
-                        <td>{{str_limit($cat->remarks, 20)}}</td>
-                        @if ($cat->image_path)
-                          <td><img src="{{ $cat->image_path }}">
-                        @endif
-                        <td>
-                          <div>
-                              <a href="https://df3c82739bad4300bc7f886cd182013b.vfs.cloud9.us-east-2.amazonaws.com/admin/cats/index, ['id' => $cat->id])">編集</a>
-                          </div>  
-                        </td>
-                    </tr>
-
-                @endforeach
-            </tbody>
-        </table>
-      </div>
     </div>
   </div>
 @endsection

@@ -9,6 +9,7 @@ use Auth;
 use User;
 
 use App\Activity;
+use App\Activityhistory;
 
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
@@ -39,16 +40,16 @@ class ActivityController extends Controller
         //ログインuserのidを取得して、activityのuser_idをDBに保存する時に代入して一緒に保存
         $activity->user_id = Auth::id();
         
+        $form = $request->all();
+
         //$activity呼び出して、フォームに入力した内容を全て入力（更新）、そしてデータベースに保存
         $activity->fill($form);
         $activity->save();
-        //
-        $form = $request->all();
-
+       
         // formに画像があれば、保存する
         if (isset($form['image'])) {
             $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $activity->image_path = basename($path);//画像名のみ保存するbasenameメソッド
+            $activity->image_path = basename($path);//画像名のみ保存するbasenameメソッドを用いて$activity->image_pathに画像のパスを保存
         } else {
             $activity->image_path = null;
         }
@@ -58,6 +59,16 @@ class ActivityController extends Controller
       
         //フォームから送信された保存済画像の削除
         unset($form['image']);
+        
+        //Activity Modelを保存するタイミングで、同時に activityhistory Modelにも編集履歴を追加する
+        $activityhistory = new Activityhistory;
+        $activityhistory->activity_id = $activity->id;
+        $activityhistory->user_id = $activity->user_id;
+        $activityhistory->updated_at = Carbon::now();
+        $activityhistory->save();
+        // dd($$activityhistory);
+        
+        return view('user/activity/create');
         
         //送信前の画面へ戻る
         return redirect()->back();
@@ -80,11 +91,44 @@ class ActivityController extends Controller
             $headline = null;
         }
         
+
+        
+        
         /*
           index.blade.phpのファイルに取得したレコード（$posts）を渡し、ページを開く
           view(ファイル名, 使いたい配列)
         */
         return view('user.activity.index', ['headline' => $headline, 'posts' => $posts]);
+    }
+    
+    public function update(Request $request)
+    {
+        $this->validate($request, Cats::$rules);
+        $cats = Cats::find($request->id);
+        $cats_form = $request->all();
+        if ($request->remove == 'true') {
+            $cats_form['image_path'] = null;
+        } elseif ($request->file('image')) {
+            $path = $request->file('image')->store('public/image');
+            $cats_form['image_path'] = basename($path);
+        } else {
+            $cats_form['image_path'] = $cats->image_path;
+        }
+
+        unset($cats_form['_token']);
+        unset($cats_form['image']);
+        unset($cats_form['remove']);
+        $cats->fill($cats_form)->save();
+
+        //Activity Modelを保存するタイミングで、同時に activityhistory Modelにも編集履歴を追加する
+        $activityhistory = new Activityhistory;
+        $activityhistory->activity_id = $activity->id;
+        $activityhistory->user_id = $activity->user_id;
+        $activityhistory->updated_at = Carbon::now();
+        $activityhistory->save();
+        // dd($$activityhistory);
+        
+        return view('user/activity/update');
     }
     
     public function delete(Request $request)

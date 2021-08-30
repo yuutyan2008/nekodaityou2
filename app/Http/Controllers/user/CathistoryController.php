@@ -19,7 +19,7 @@ use Carbon\Carbon;
 
 class CathistoryController extends Controller
 {
-    //猫台帳編集履歴の一覧表示
+    //自分の猫台帳の表示
     public function index(Request $request)
     {
         // //newはCatモデルからインスタンス（レコード）を生成するメソッド
@@ -41,7 +41,8 @@ class CathistoryController extends Controller
         if (empty($cathistory)) {
             abort(404);
         }
-        return view('user.cathistory.edit', ['cathistory_form' => $cathistory_form]);
+        // dd($cathistory);
+        return view('user.cathistory.edit', ['cathistory_form' => $cathistory]);
     }
     
     //編集画面から送信されたフォームデータを処理
@@ -59,6 +60,8 @@ class CathistoryController extends Controller
         
         // 送信されてきたフォームデータを格納する
         $cathistory_form = $request->all();
+        // dd($cathistory_form);
+        //画像の変更、削除設定
         if ($request->remove == 'true') {
             $cathistory_form['image_path'] = null;
         } elseif ($request->file('image')) {
@@ -80,7 +83,7 @@ class CathistoryController extends Controller
         $cathistory->updated_at = Carbon::now();
         $cathistory->save();
 
-        return view('user/cathistory/update');
+        return redirect('user/cathistory');
     }
     
     public function delete(Request $request)

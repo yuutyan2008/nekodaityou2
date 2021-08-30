@@ -16,14 +16,12 @@ class CreateActivityhistoriesTable extends Migration
         Schema::create('activityhistories', function (Blueprint $table) {
             $table->bigIncrements('id')->autoIncrement();
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('activitiy_id')->unsigned();
-            
-            $table->string('edited_at');
+            $table->bigInteger('activity_id')->unsigned();
             $table->timestamps();
             
             // 外部キー
-            $table->foreign('activitiy_id')->references('id')->on('activities')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('activity_id')->references('id')->on('activities')->onDelete('cascade');
         });
     }
 

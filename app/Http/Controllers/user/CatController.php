@@ -36,7 +36,7 @@ class CatController extends Controller
         // formに画像があれば、保存する
         if (isset($form['image'])) {
             $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
+            $cat->image_path = basename($path);//画像ファイル名のみ保存するbasenameメソッドで、パスではなくファイル名でテーブルに保存
         } else {
             $cat->image_path = null;
         }
@@ -58,6 +58,12 @@ class CatController extends Controller
         $cathistory = new Cathistory;
         $cathistory->cat_id = $cat->id;
         $cathistory->user_id = $cat->user_id;
+        $cathistory->name = $cat->name;
+        $cathistory->tail = $cat->tail;
+        $cathistory->hair = $cat->hair;
+        $cathistory->gender = $cat->gender;
+        $cathistory->area = $cat->area;
+        $cathistory->attention = $cat->attention;
         $cathistory->updated_at = Carbon::now();
         $cathistory->save();
         // dd($cathistory);
@@ -125,6 +131,12 @@ class CatController extends Controller
         $cathistory = new Cathistory;
         $cathistory->cat_id = $cat->id;
         $cathistory->user_id = $cat->user_id;
+        $cathistory->name = $cat->name;
+        $cathistory->tail = $cat->tail;
+        $cathistory->hair = $cat->hair;
+        $cathistory->gender = $cat->gender;
+        $cathistory->area = $cat->area;
+        $cathistory->attention = $cat->attention;
         $cathistory->updated_at = Carbon::now();
         $cathistory->save();
 
