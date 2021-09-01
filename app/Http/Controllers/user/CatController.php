@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Cat;
 
-//Cathistory modelを使用
-use App\Cathistory;
+// //Cathistory modelを使用
+// use App\Cathistory;
 use App\User;
 
 //時刻を扱うために Carbonという日付操作ライブラリを使う
@@ -51,23 +51,6 @@ class CatController extends Controller
         $cat->user_id = Auth::id();
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）
         $cat->fill($form)->save();
-         
-        
-
-        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
-        $cathistory = new Cathistory;
-        $cathistory->cat_id = $cat->id;
-        $cathistory->user_id = $cat->user_id;
-        $cathistory->name = $cat->name;
-        $cathistory->tail = $cat->tail;
-        $cathistory->hair = $cat->hair;
-        $cathistory->gender = $cat->gender;
-        $cathistory->area = $cat->area;
-        $cathistory->attention = $cat->attention;
-        $cathistory->updated_at = Carbon::now();
-        $cathistory->save();
-        // dd($cathistory);
-        return view('user/cats/create');
     }
     
     //フォームに入力する
@@ -102,46 +85,30 @@ class CatController extends Controller
         */
         // dd($posts, $cond_title);
         return view('user.cats.index', ['posts' => $posts, 'cond_title' => $cond_title]);
-        
-     
-        $form = $request->all();
     }
     
     //
-    public function update(Request $request)
-    {
-        $this->validate($request, Cats::$rules);
-        $cats = Cats::find($request->id);
-        $cats_form = $request->all();
-        if ($request->remove == 'true') {
-            $cats_form['image_path'] = null;
-        } elseif ($request->file('image')) {
-            $path = $request->file('image')->store('public/image');
-            $cats_form['image_path'] = basename($path);
-        } else {
-            $cats_form['image_path'] = $cats->image_path;
-        }
+    // public function update(Request $request)
+    // {
+    //     $this->validate($request, Cats::$rules);
+    //     $cats = Cats::find($request->id);
+    //     $cats_form = $request->all();
+    //     if ($request->remove == 'true') {
+    //         $cats_form['image_path'] = null;
+    //     } elseif ($request->file('image')) {
+    //         $path = $request->file('image')->store('public/image');
+    //         $cats_form['image_path'] = basename($path);
+    //     } else {
+    //         $cats_form['image_path'] = $cats->image_path;
+    //     }
 
-        unset($cats_form['_token']);
-        unset($cats_form['image']);
-        unset($cats_form['remove']);
-        $cats->fill($cats_form)->save();
+    //     unset($cats_form['_token']);
+    //     unset($cats_form['image']);
+    //     unset($cats_form['remove']);
+    //     $cats->fill($cats_form)->save();
 
-        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
-        $cathistory = new Cathistory;
-        $cathistory->cat_id = $cat->id;
-        $cathistory->user_id = $cat->user_id;
-        $cathistory->name = $cat->name;
-        $cathistory->tail = $cat->tail;
-        $cathistory->hair = $cat->hair;
-        $cathistory->gender = $cat->gender;
-        $cathistory->area = $cat->area;
-        $cathistory->attention = $cat->attention;
-        $cathistory->updated_at = Carbon::now();
-        $cathistory->save();
-
-        return redirect('user/cats/index');
-    }
+    //     return redirect('user/cats/index');
+    // }
     
     public function delete(Request $request)
     {
@@ -151,5 +118,74 @@ class CatController extends Controller
         // 削除する
         $cat->delete();
         return redirect('user/cats/');
+    }
+    
+    //自分の猫台帳の表示
+    public function cathistoryindex(Request $request)
+    {
+        // //newはCatモデルからインスタンス（レコード）を生成するメソッド
+        $cat = Cat::where('user_id', auth()->user()->id)->get();
+        
+        
+        //Carbon:日付操作ライブラリで現在時刻を取得し、 updated_at として記録
+        // $cat->updated_at = Carbon::now();
+
+        return view('user.cats.cathistoryindex', ['cat' => $cat]);
+    }
+    
+    // 編集画面の処理
+    public function cathistoryedit(Request $request)
+    {
+        // Cat Modelからデータを取得する
+        $cat = Cat::find($request->id);
+        if (empty($cat)) {
+            abort(404);
+        }
+        
+        return view('user.cats.cathistoryedit', ['cat_form' => $cat]);
+    }
+    
+    //編集画面から送信されたフォームデータを処理
+    public function cathistoryupdate(Request $request)
+    {
+        /*
+         Validationをかける.
+         第1引数に$requestとすると様々な値をチェックできる。
+         第２引数ModelのNewsクラスの$rulesメソッド(validationのルールをまとめたもの)にアクセスしたい
+         */
+        $this->validate($request, Cat::$rules);
+        
+        //findメソッドを使用して主キーのidからModelのデータを取得する
+        $cat = Cat::find($request->id);
+        
+        // 送信されてきたフォームデータを格納する
+        $cat_form = $request->all();
+
+        //画像の変更、削除設定
+        if ($request->remove == 'true') {
+            $cat_form['image_path'] = null;
+        } elseif ($request->file('image')) {
+            $path = $request->file('image')->store('public/image');
+            $cat_form['image_path'] = basename($path);
+        } else {
+            $cat_form['image_path'] = $cat->image_path;
+        }
+
+        unset($cat_form['_token']);
+        unset($cat_form['image']);
+        unset($cat_form['remove']);
+        $cathistory->fill($cat_form)->save();
+
+        return redirect('cats/cathistoryedit');
+    }
+    
+    public function cathistorydelete(Request $request)
+    {
+        // 該当するcat Modelを取得
+        // dd($request);
+        $cat = Cat::find($request->id);
+        // 削除する
+        $cat->delete();
+        return redirect('cats/cathistory/');
     }
 }

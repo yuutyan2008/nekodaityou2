@@ -50,13 +50,13 @@ Route::group(['middleware' => 'auth:user'], function () {
     
     
  
-    Route::get('user/cathistory/index', 'user\CathistoryController@index')->name('cathistory.index');//自分の猫台帳一覧表示
-    Route::get('user/cathistory/edit', 'user\CathistoryController@edit')->name('cathistory.edit');//自分の猫台帳を編集
-    Route::post('user/cathistory/edit', 'user\CathistoryController@update')->name('cathistory.update');//自分の猫台帳を削除
+    Route::get('user/cats/cathistoryindex', 'user\CatController@cathistoryindex')->name('cats.cathistoryindex');//自分の猫台帳一覧表示
+    Route::get('user/cats/cathistoryedit', 'user\CatController@cathistoryedit')->name('cats.cathistoryedit');//自分の猫台帳を編集
+    Route::post('user/cats/cathistoryedit', 'user\CatController@update');//自分の猫台帳を削除
     
-    Route::get('user/activityhistory/index', 'user\ActivityhistoryController@index')->name('activityhistory.index');//自分の猫台帳一覧表示
-    Route::get('user/activityhistory/edit', 'user\ActivityhistoryController@edit')->name('activityhistory.edit');//自分の猫台帳を削除
-    Route::post('user/activityhistory/edit', 'user\ActivityhistoryController@update')->name('activityhistory.update');//自分の猫台帳を削除
+    // Route::get('user/activityhistory/index', 'user\ActivityhistoryController@index')->name('activityhistory.index');//自分の猫台帳一覧表示
+    // Route::get('user/activityhistory/edit', 'user\ActivityhistoryController@edit')->name('activityhistory.edit');//自分の猫台帳を削除
+    // Route::post('user/activityhistory/edit', 'user\ActivityhistoryController@update')->name('activityhistory.update');//自分の猫台帳を削除
 });
 
  
@@ -92,7 +92,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     
     
     Route::get('cats/index', 'Admin\CatController@index')->name('get.cats.index');//猫台帳一覧画面の表示
-    Route::post('cats/index', 'Admin\CatController@edit')->name('post.cats.edit');//猫台帳編集ボタンを押すとidを渡して編集画面へ
     
     Route::get('cats/edit', 'Admin\CatController@edit')->name('admin.cats.edit');//編集したい猫台帳の表示
     Route::post('cats/edit', 'Admin\CatController@update');//編集画面の更新ボタンを押すとidを渡して更新

@@ -29,11 +29,11 @@ class Cat extends Model
     );
     
     
-    // CatsとCathistoriesは１対多の関係
-    public function cathistories()
-    {
-        return $this->hasMany('App\Cathistory');
-    }
+    // // CatsとCathistoriesは１対多の関係
+    // public function cathistories()
+    // {
+    //     return $this->hasMany('App\Cathistory');
+    // }
     
     //userとcatは多対多の関係
     public function users()

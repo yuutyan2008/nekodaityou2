@@ -11,7 +11,7 @@
                         <a href="{{ url('user/cats/index') }}">猫台帳一覧と更新</a>
                     </div>
                     <div class="card-body">
-                        <a href="{{ url('user/cathistory/index') }}">自分の猫台帳</a>
+                        <a href="{{ url('user/cats/cathistoryindex') }}">自分の猫台帳</a>
                     </div>
  
                     <div class="card-body">

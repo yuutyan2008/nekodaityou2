@@ -1,16 +1,16 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.admin')
+@extends('layouts.front')
 <!--titleセクション猫台帳編集画面を表示-->
-@section('title', '猫台帳の編集')
+@section('title', '自分の猫台帳の編集')
 
 @section('content')
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <h2>猫台帳の編集</h2>
+        <h2>自分の猫台帳の編集</h2>
         <!--フォームの送信先を指定-->
-        <form action="{{ route('admin.cats.edit') }}" method="get" enctype="multipart/form-data">
+        <form action="{{ route('cats.cathistoryedit') }}"  method="get" enctype="multipart/form-data">
           <!--$errors~validationで弾かれた内容が記憶された配列~の数があるなら-->
           @if (count($errors) > 0)
             <ul>
@@ -85,10 +85,10 @@
               <label class="col-md-2" for="image_path">画像</label>
               <div class="col-md-10">
                   @if ($cat_form->image_path)
-                    <td><img src="{{ $cat_form1->image_path }}">
+                    <td><img src="{{ $cat_form->image_path }}">
                   @endif
               </div>
-          </div>
+          </div>         
           <div class="form-group row">
             <div class="col-md-10">
                 <input type="hidden" name="id" value="{{ $cat_form->id }}">

@@ -91,19 +91,7 @@ class CatController extends Controller
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
         $cat->fill($form);
         $cat->save();
-        
-        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
-        $cathistory = new Cathistory;
-        $cathistory->cat_id = $cat->id;
-        $cathistory->admin_id = $cat->admin_id;
-        $cathistory->name = $cat->name;
-        $cathistory->tail = $cat->tail;
-        $cathistory->hair = $cat->hair;
-        $cathistory->gender = $cat->gender;
-        $cathistory->area = $cat->area;
-        $cathistory->attention = $cat->attention;
-        $cathistory->updated_at = Carbon::now();
-        $cathistory->save();
+    
         
         return redirect('admin/cats/create');
     }
@@ -141,7 +129,7 @@ class CatController extends Controller
         } elseif ($request->file('image')) {
             //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入//
             $path = $request->file('image')->store('public/image');
-            $cats->image_path = basename($path);
+            $cat->image_path = basename($path);
         // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
             // //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
             // $cat->image_path = Storage::disk('s3')->url($path);
@@ -155,19 +143,7 @@ class CatController extends Controller
     
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）、そして保存
         $cat->fill($cat_form)->save();
-        
-        //Cat Modelを保存するタイミングで、同時に cathistory Modelにも編集履歴を追加する
-        $cathistory = new Cathistory;
-        $cathistory->cat_id = $cat->id;
-        $cathistory->admin_id = $cat->admin_id;
-        $cathistory->name = $cat->name;
-        $cathistory->tail = $cat->tail;
-        $cathistory->hair = $cat->hair;
-        $cathistory->gender = $cat->gender;
-        $cathistory->area = $cat->area;
-        $cathistory->attention = $cat->attention;
-        $cathistory->updated_at = Carbon::now();
-        $cathistory->save();
+
         
         return redirect('admin/cats');
     }

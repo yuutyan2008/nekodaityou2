@@ -132,7 +132,7 @@
                               @endif
                               <td>
                                 <div>
-                                    <a href="{{ route('post.cats.edit', ['id' => $cat->id]) }}">編集</a>
+                                    <a href="{{ route('admin.cats.edit', ['id' => $cat->id]) }}">編集</a>
                                 </div>  
                               </td>
                           </tr>
