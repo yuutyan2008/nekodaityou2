@@ -9,8 +9,8 @@
     <div class="row">
       <div class="col-md-12">
         <h2>自分の猫台帳の編集</h2>
-        <!--フォームの送信先を指定-->
-        <form action="{{ route('cats.cathistoryedit') }}"  method="get" enctype="multipart/form-data">
+        <!--直前に入力したデータを表示するためのGETメソッドを使用-->
+        <form action="{{ route('cats.cathistoryupdate') }}"  method="post" enctype="multipart/form-data">
           <!--$errors~validationで弾かれた内容が記憶された配列~の数があるなら-->
           @if (count($errors) > 0)
             <ul>
@@ -28,14 +28,16 @@
           <div class="form-group row">
               <label class="col-md-2" for="tail">しっぽの長さ</label>
                 <select name="tail" class="custom-select">
+　                <option value = "" selected>選んでください</option>
                   <option value ="長い" @if($cat_form->tail=== '長い') selected='selected' @endif>長い</option>
                   <option value ="短い" @if($cat_form->tail=== '短い') selected='selected' @endif>短い</option>
                   <option value ="中間くらい" @if($cat_form->tail=== '中間くらい') selected='selected' @endif>中間くらい</option>
                 </select>
           </div>
           <div class="form-group row">
-              <label class="col-md-2" for="hair">毛の模様</label>
+              <label class="col-md-2" for="hair">毛色と模様</label>
                 <select name="tail" class="custom-select">
+                  <option value = "" selected>選んでください</option>
                   <option value ="茶トラ" @if($cat_form->hair=== '茶トラ') selected='selected' @endif>茶トラ</option>
                   <option value ="茶白" @if($cat_form->hair=== '茶白') selected='selected' @endif>茶白</option>
                   <option value ="黒" @if($cat_form->hair=== '黒') selected='selected' @endif>黒</option>
@@ -51,6 +53,7 @@
           <div class="form-group row">
               <label class="col-md-2" for="gender">性別</label>
                 <select name="gender" class="custom-select">
+                  <option value = "---" selected>選んでください</option>
                   <option value ="オス" @if($cat_form->gender=== 'オス') selected='selected' @endif>オス</option>
                   <option value ="メス" @if($cat_form->gender=== 'メス') selected='selected' @endif>メス</option>
                 </select>
@@ -58,23 +61,25 @@
           <div class="form-group row">
               <label class="col-md-2" for="area">居住エリア</label>
                 <select name="area" class="custom-select">
+                  <option value = "" selected>選んでください</option>
                   <option value ="農獣塔前" @if($cat_form->area=== '農獣塔前') selected='selected' @endif>農獣塔前</option>
                   <option value ="体育館裏" @if($cat_form->area=== '体育館裏') selected='selected' @endif>体育館裏</option>
                   <option value ="図書館付近" @if($cat_form->area=== '図書館付近') selected='selected' @endif>図書館付近</option>
                   <option value ="教育学部塔付近" @if($cat_form->area=== '教育学部塔付近') selected='selected' @endif>教育学部塔付近</option>
                   <option value ="ビオトープ" @if($cat_form->area=== 'ビオトープ') selected='selected' @endif>ビオトープ</option>
                 </select>
-            </div> 
+          </div> 
           <div class="form-group row">
               <label class="col-md-2" for="attention">注意事項</label>
                 <select name="attention" class="custom-select">
+                  <option value = "---" selected>選んでください</option>
                   <option value ="避妊去勢済" @if($cat_form->attention=== '避妊去勢済') selected='selected' @endif>避妊去勢済</option>
                   <option value ="病気の可能性" @if($cat_form->attention=== '病気の可能性') selected='selected' @endif>病気の可能性</option>
                   <option value ="怪我をしている" @if($cat_form->attention=== '怪我をしている') selected='selected' @endif>怪我をしている</option>
                   <option value ="妊娠の可能性" @if($cat_form->attention=== '妊娠の可能性') selected='selected' @endif>妊娠の可能性</option>
                   <option value ="譲渡できそう" @if($cat_form->attention=== '譲渡できそう') selected='selected' @endif>譲渡できそう</option>
                 </select>
-            </div>
+          </div>
           <div class="form-group row">
               <label class="col-md-2" for="remarks">備考欄</label>
               <div class="col-md-10">
@@ -84,19 +89,14 @@
           <div class="form-group row">
               <label class="col-md-2" for="image_path">画像</label>
               <div class="col-md-10">
-                  @if ($cat_form->image_path)
-                    <td><img src="{{ $cat_form->image_path }}">
-                  @endif
+                  <input type="file" class="form-control-file" name="image_path" value="{{ $cat_form->image_path }}">
               </div>
-          </div>         
-          <div class="form-group row">
-            <div class="col-md-10">
-                <input type="hidden" name="id" value="{{ $cat_form->id }}">
-                {{ csrf_field() }}
-                <input type="submit" class="btn btn-primary" value="更新">
-            </div>
-         </div>
-        </form>
+          </div>  
+          {{ csrf_field() }}
+          <input type="submit" class="btn btn-primary" value="更新">
+          <!--非表示のid送信するには、テーブルの外に書く-->
+          <input type="hidden" name="id" value="{{ $cat_form->id }}">
+        </form>          
       </div>
     </div>
   </div>

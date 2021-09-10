@@ -17,7 +17,7 @@
     <div class="row">
 　　　<div class="col-md-12">
 　　　　<!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
-　　　　<form action="{{ action('Admin\CatController@index') }}" method="get">
+　　　　<form action="{{ action('CatController@index') }}" method="get">
             <div class="form row">
               <div class="form-group col-md-6">
               　<label class="col-md-2">猫の名前</label>
@@ -108,7 +108,6 @@
         <table class="table table-striped">
           <thead>
               <tr>
-                  <th width="5%">クリックして選択</th>
                   <th width="5%">更新日</th>
                   <th width="5%">猫の名前</th>
                   <th width="5%">しっぽの長さ</th>
@@ -140,11 +139,6 @@
                         @if ($cat->image_path)
                           <td><img src="{{ $cat->image_path }}">
                         @endif
-                        <td>
-                          <div>
-                              <a href="{{ action('Admin\CatController@edit', ['id' => $cat->id]) }}">編集</a>
-                          </div>  
-                        </td>
                     </tr>
 
                 @endforeach

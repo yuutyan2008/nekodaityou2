@@ -6,11 +6,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
+//バリデーションルールで実行されるクエリをカスタマイズする場合は
+use Illuminate\Validation\Rule;
+
+//Validatorの使用
+use Validator;
 
 use App\Cat;
 
-// //Cathistory modelを使用
-// use App\Cathistory;
 use App\User;
 
 //時刻を扱うために Carbonという日付操作ライブラリを使う
@@ -22,13 +25,20 @@ use Carbon\Carbon;
 //クラスの定義
 class CatController extends Controller
 {
+    
     //入力した文字をDBに保存する
     public function create(Request $request)
     {
-        //controllerのVaridationメソッドを呼び出す。Catディレクトリの$rules変数を検証する
-        $this->validate($request, Cat::$rules);
+         
+        // dd($request->all());//入力データを配列として受け取る
+        //実行したいvalidationルールをvalidateメソッドに渡す
+        $request->validate([
+            'name' => 'required_with_all | unique:cats',
+            'hair' => 'required_with_all',
+            'area' => 'required_with_all',
+        ]);
         
-        //新しいレコードを追加。newはCatモデルからインスタンス（レコード）を生成するメソッド
+        //データを新規作成。newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
         
         $form = $request->all();
@@ -51,6 +61,8 @@ class CatController extends Controller
         $cat->user_id = Auth::id();
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）
         $cat->fill($form)->save();
+        
+        return view('user.cats.create');
     }
     
     //フォームに入力する
@@ -63,7 +75,7 @@ class CatController extends Controller
     public function index(Request $request)
     {
     
-       //$requestの中の検索欄へのuser入力値cond_titleのを、変数cond_titleに代入
+       //$requestの中の検索欄へのuser入力値cond_titleを呼び出し、変数cond_titleに代入
         $cond_title = $request->cond_title;
        
         //検索欄が空欄でない場合（検索された場合）
@@ -80,7 +92,7 @@ class CatController extends Controller
         }
         /*
          index.blade.phpのファイルに取得したレコード（$posts）と、
-         ユーザーが入力した文字列（$cond_title）を渡し、ページを開く
+         ユーザーが入力した文字列（$cond_title）を渡し、検索結果を表示
          view(ファイル名, 使いたい配列)
         */
         // dd($posts, $cond_title);
@@ -113,7 +125,7 @@ class CatController extends Controller
     public function delete(Request $request)
     {
         // 該当するcat Modelを取得
-        // dd($request);
+        //データの入った$requestの中のidプロパティに該当するレコードを取得、＄catへ代入
         $cat = Cat::find($request->id);
         // 削除する
         $cat->delete();
@@ -129,54 +141,73 @@ class CatController extends Controller
         
         //Carbon:日付操作ライブラリで現在時刻を取得し、 updated_at として記録
         // $cat->updated_at = Carbon::now();
-
+        
+        //$cat(自分の猫データ)を取得して画面表示する
         return view('user.cats.cathistoryindex', ['cat' => $cat]);
     }
     
     // 編集画面の処理
     public function cathistoryedit(Request $request)
     {
-        // Cat Modelからデータを取得する
+        //modelのfindメソッドで、更新するCat modelを取得し、編集前のデータが入った$requestの中のidプロパティに該当するレコードをDBより取得
         $cat = Cat::find($request->id);
+        // dd($cat);
         if (empty($cat)) {
             abort(404);
         }
-        
+        //入力データが格納されたcat_formから、データをcatに格納して
         return view('user.cats.cathistoryedit', ['cat_form' => $cat]);
     }
     
-    //編集画面から送信されたフォームデータを処理
+    //編集画面からPOSTで受け取った編集データの処理
     public function cathistoryupdate(Request $request)
     {
-        /*
-         Validationをかける.
-         第1引数に$requestとすると様々な値をチェックできる。
-         第２引数ModelのNewsクラスの$rulesメソッド(validationのルールをまとめたもの)にアクセスしたい
-         */
-        $this->validate($request, Cat::$rules);
-        
-        //findメソッドを使用して主キーのidからModelのデータを取得する
+        //modelのfindメソッドで、更新するCat modelを取得し、編集前のデータが入った$requestの中のidプロパティに該当するレコードをDBより取得
         $cat = Cat::find($request->id);
         
-        // 送信されてきたフォームデータを格納する
+        //バリデータにcatIDを無視するように指示
+        Validator::make($request->all(), [
+            'name' => [
+                'required',
+                Rule::unique('cats')->ignore($cat->id),
+            ],
+            'hair' => [
+                'required',
+                Rule::unique('cats')->ignore($cat->id),
+            ],
+            'area' => [
+                'required',
+                Rule::unique('cats')->ignore($cat->id),
+            ],
+        ]);
+        
+        // 編集後のデータが入った$requestのデータ全てを$cat_formに格納する
         $cat_form = $request->all();
-
+        
+        // dd($cat_form);
         //画像の変更、削除設定
         if ($request->remove == 'true') {
-            $cat_form['image_path'] = null;
-        } elseif ($request->file('image')) {
+            $cat_form['image_path'] = null;//更新時の削除をする場合。userが保存した画像$cat_form['image_path']を削除
+        } elseif ($request->file('image')) {//新しい画像に変更する場合
+            //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入
             $path = $request->file('image')->store('public/image');
-            $cat_form['image_path'] = basename($path);
-        } else {
-            $cat_form['image_path'] = $cat->image_path;
+            $cat_form['image_path'] = basename($path);//basename()でファイル名だけ取得し,image_pathカラムに代入
+        } else {                            //更新以外（変更なし）の場合
+            $cat_form['image_path'] = $cat->image_path;//DBから取得したimage_pathカラムの値(ファイル名)を、そのまま新フォームに入れる
         }
-
+        // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+        // //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
+        // $cat->image_path = Storage::disk('s3')->url($path);
+        
+        //unsetメソッドで、取得したフォームデータから必要のないtokenを削除する
         unset($cat_form['_token']);
         unset($cat_form['image']);
         unset($cat_form['remove']);
-        $cathistory->fill($cat_form)->save();
+        
+        // 該当するデータを上書きして保存する
+        $cat->fill($cat_form)->save();
 
-        return redirect('cats/cathistoryedit');
+        return redirect('user/cats/cathistoryindex');
     }
     
     public function cathistorydelete(Request $request)
@@ -186,6 +217,6 @@ class CatController extends Controller
         $cat = Cat::find($request->id);
         // 削除する
         $cat->delete();
-        return redirect('cats/cathistory/');
+        return redirect('user/cats/');
     }
 }

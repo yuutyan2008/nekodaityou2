@@ -8,7 +8,7 @@
   <div class="container-fluid">
     <div class="row">
       <!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで取得-->
-      <form action="{{ route('activityhistory.index') }}" method="get" enctype="multipart/form-data">
+      <form action="{{ route('activity.historyindex') }}" method="get" enctype="multipart/form-data">
         <div class="col-md-12">
           <h2>自分の猫活動</h2>
             <div class="col-md-6">
@@ -69,7 +69,7 @@
                       </td>
                       <td>
                         <div>
-                          <a href ="{{ route('activityhistory.edit', ['id' => $a->id]) }}">編集</a>
+                          <a href ="{{ route('activity.historydelete', ['id' => $a->id]) }}">削除</a>
                         </div>                          
                       </td>
                     </tr>

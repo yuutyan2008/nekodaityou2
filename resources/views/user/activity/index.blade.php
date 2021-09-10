@@ -67,7 +67,7 @@
                           <td>
                             <div class="image col-md-6 text-right mt-4">
                                  @if ($activity->image_path)
-                                                <img src="{{ asset('storage/image/' . $activity->image_path) }}">
+                                    <img src="{{ asset('storage/image/' . $activity->image_path) }}">
                                  @endif
                             </div>
                           </td>

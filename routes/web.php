@@ -42,6 +42,7 @@ Route::group(['middleware' => 'auth:user'], function () {
 
     Route::get('user/cats/create', 'user\CatController@add');//猫台帳登録フォームに入力
     Route::post('user/cats/create', 'user\CatController@create');//猫台帳新規作成申請ボタンでDB追加
+    Route::get('user/cats/index', 'user\CatController@index');//猫台帳一覧画面の表示
     
    
     Route::get('user/activity/create', 'user\ActivityController@add');//猫活動フォームに入力
@@ -50,13 +51,13 @@ Route::group(['middleware' => 'auth:user'], function () {
     
     
  
-    Route::get('user/cats/cathistoryindex', 'user\CatController@cathistoryindex')->name('cats.cathistoryindex');//自分の猫台帳一覧表示
-    Route::get('user/cats/cathistoryedit', 'user\CatController@cathistoryedit')->name('cats.cathistoryedit');//自分の猫台帳を編集
-    Route::post('user/cats/cathistoryedit', 'user\CatController@update');//自分の猫台帳を削除
+    Route::get('user/cats/cathistoryindex', 'user\CatController@cathistoryindex');//自分の猫台帳表示
+    Route::get('user/cats/cathistoryedit', 'user\CatController@cathistoryedit')->name('cats.cathistoryedit');//自分の猫台帳編集ボタンを押して編集画面へ移動
+    Route::post('user/cats/cathistoryedit', 'user\CatController@cathistoryupdate')->name('cats.cathistoryupdate');//自分の猫台帳を更新
     
-    // Route::get('user/activityhistory/index', 'user\ActivityhistoryController@index')->name('activityhistory.index');//自分の猫台帳一覧表示
-    // Route::get('user/activityhistory/edit', 'user\ActivityhistoryController@edit')->name('activityhistory.edit');//自分の猫台帳を削除
-    // Route::post('user/activityhistory/edit', 'user\ActivityhistoryController@update')->name('activityhistory.update');//自分の猫台帳を削除
+    Route::get('user/activity/historyindex', 'user\ActivityController@historyindex')->name('history.index');//自分の猫台帳一覧表示
+    Route::get('user/activity/historyedit', 'user\ActivityController@historyedit')->name('history.edit');//自分の猫台帳を削除
+    Route::post('user/activity/historyedit', 'user\ActivityController@historydelete')->name('history.delete');//自分の猫台帳を削除
 });
 
  
@@ -90,12 +91,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::post('user/edit', 'Admin\UserController@update');//会員情報編集画面の編集ボタンを押すとidを渡して確認画面へ
     
     
-    
+    Route::get('cats/create', 'Admin\CatController@add');//フォームに入力するとaddアクションへ
+    Route::post('cats/create', 'Admin\CatController@create');//送信ボタンでDBに追加
     Route::get('cats/index', 'Admin\CatController@index')->name('get.cats.index');//猫台帳一覧画面の表示
     
     Route::get('cats/edit', 'Admin\CatController@edit')->name('admin.cats.edit');//編集したい猫台帳の表示
     Route::post('cats/edit', 'Admin\CatController@update');//編集画面の更新ボタンを押すとidを渡して更新
-    
-    Route::get('cats/create', 'Admin\CatController@add');//フォームに入力するとaddアクションへ
-    Route::post('cats/create', 'Admin\CatController@create');//送信ボタンでDBに追加
 });
