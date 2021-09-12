@@ -57,6 +57,7 @@ class CatController extends Controller
         //フォームから送信された保存済画像の削除
         unset($form['image']);
         
+        // dd($path);
         //ログインuserのidを取得して、DBに保存時catテーブルにuser_idを代入して一緒に保存
         $cat->user_id = Auth::id();
         //$cat呼び出して、フォームに入力した内容を全て入力（更新）

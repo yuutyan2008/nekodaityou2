@@ -39,9 +39,9 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-md-2" for="image_path">画像</label>
+                <label class="col-md-2" for="image">画像</label>
                 <div class="col-md-10">
-                    <input type="file" class="form-control-file" name="image_path" value="{{ old('mage_path') }}">
+                    <input type="file" class="form-control-file" name="image" value="{{ old('image_path') }}">
                 </div>
             </div>
             {{ csrf_field() }}

@@ -55,9 +55,8 @@ Route::group(['middleware' => 'auth:user'], function () {
     Route::get('user/cats/cathistoryedit', 'user\CatController@cathistoryedit')->name('cats.cathistoryedit');//自分の猫台帳編集ボタンを押して編集画面へ移動
     Route::post('user/cats/cathistoryedit', 'user\CatController@cathistoryupdate')->name('cats.cathistoryupdate');//自分の猫台帳を更新
     
-    Route::get('user/activity/historyindex', 'user\ActivityController@historyindex')->name('history.index');//自分の猫台帳一覧表示
-    Route::get('user/activity/historyedit', 'user\ActivityController@historyedit')->name('history.edit');//自分の猫台帳を削除
-    Route::post('user/activity/historyedit', 'user\ActivityController@historydelete')->name('history.delete');//自分の猫台帳を削除
+    Route::get('user/activity/historyindex', 'user\ActivityController@historyindex')->name('activity.historyindex');//自分の猫台帳一覧表示
+    Route::post('user/activity/historindex', 'user\ActivityController@historydelete')->name('activity.historydelete');//自分の猫台帳を削除
 });
 
  

@@ -47,9 +47,13 @@
                             <td>{{str_limit($c->area, 20)}}</td>
                             <td>{{str_limit($c->attention, 30)}}</td>
                             <td>{{str_limit($c->remarks, 20)}}</td>
-                            @if ($c->image_path)
-                              <td><img src="{{ $c->image_path }}"></td>
-                            @endif
+                            <td>
+                              <div class="image col-md-6 text-right mt-4">
+                                @if ($cat->image_path)
+                                　<img src="{{ asset('storage/image/' . $cat->image_path) }}">
+                          　　　　@endif
+                          　　</div>
+                          　</td>
                             {{ csrf_field() }}
                             <td>
                               <div>

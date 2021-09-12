@@ -53,7 +53,7 @@
           <div class="form-group row">
               <label class="col-md-2" for="gender">性別</label>
                 <select name="gender" class="custom-select">
-                  <option value = "---" selected>選んでください</option>
+                  <option value = "" selected>選んでください</option>
                   <option value ="オス" @if($cat_form->gender=== 'オス') selected='selected' @endif>オス</option>
                   <option value ="メス" @if($cat_form->gender=== 'メス') selected='selected' @endif>メス</option>
                 </select>
@@ -72,7 +72,7 @@
           <div class="form-group row">
               <label class="col-md-2" for="attention">注意事項</label>
                 <select name="attention" class="custom-select">
-                  <option value = "---" selected>選んでください</option>
+                  <option value = "" selected>選んでください</option>
                   <option value ="避妊去勢済" @if($cat_form->attention=== '避妊去勢済') selected='selected' @endif>避妊去勢済</option>
                   <option value ="病気の可能性" @if($cat_form->attention=== '病気の可能性') selected='selected' @endif>病気の可能性</option>
                   <option value ="怪我をしている" @if($cat_form->attention=== '怪我をしている') selected='selected' @endif>怪我をしている</option>
@@ -87,9 +87,9 @@
               </div>
           </div> 
           <div class="form-group row">
-              <label class="col-md-2" for="image_path">画像</label>
+              <label class="col-md-2" for="image">画像</label>
               <div class="col-md-10">
-                  <input type="file" class="form-control-file" name="image_path" value="{{ $cat_form->image_path }}">
+                  <input type="file" class="form-control-file" name="image" value="{{ $cat_form->image_path }}">
               </div>
           </div>  
           {{ csrf_field() }}

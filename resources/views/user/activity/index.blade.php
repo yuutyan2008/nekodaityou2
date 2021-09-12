@@ -6,35 +6,6 @@
 
 @section('content')
   <div class="container-fluid">
-    @if (!is_null($headline))
-      <div class="row">
-        <div class="headline col-md-10 mx-auto">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="image">
-                  <!--image_pathには保存した画像のファイル名が入り、assetはファイルのパスを返している。（画像のパスを返す）-->
-                  @if ($headline->image_path)
-                      <img src="{{ asset('storage/image/' . $headline->image_path) }}">
-                  @endif
-              </div>
-              <div class="col-md-6">
-                <p>{{ str_limit($headline->updated_at->format('Y年m月d日'), 70) }}</p>
-              </div>
-              <div class="title">
-                <h1>{{ str_limit($headline->title, 70) }}</h1>
-              </div>
-              <div class="name">
-                <p>{{ str_limit($headline->user->name, 70) }}</p>
-              </div>
-              <div class="content">
-                <p class="body mx-auto">{{ str_limit($headline->content, 650) }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    @endif
-
     <div class="row">
       <div class="col-md-12">
         <h2>地域猫活動の投稿一覧</h2>
@@ -67,6 +38,7 @@
                           <td>
                             <div class="image col-md-6 text-right mt-4">
                                  @if ($activity->image_path)
+                                    <!--保存した画像のパスからURLを生成-->
                                     <img src="{{ asset('storage/image/' . $activity->image_path) }}">
                                  @endif
                             </div>

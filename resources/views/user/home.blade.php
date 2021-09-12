@@ -19,7 +19,7 @@
                         <a href="{{ url('user/activity/create') }}">自分の猫活動新規作成</a>
                     </div>
                     <div class="card-body">
-                        <a href="{{ url('user/activityhistory/index') }}">自分の猫活動</a>
+                        <a href="{{ url('user/activity/historyindex') }}">自分の猫活動</a>
                     </div>
                      
                 </div>
