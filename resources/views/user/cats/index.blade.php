@@ -134,11 +134,11 @@
                         <td>{{str_limit($cat->attention, 30)}}</td>
                         <td>{{str_limit($cat->remarks, 20)}}</td>
                         <td>
-                          <div class="image col-md-6 text-right mt-4">
-                            @if ($cat->image_path)
-                            　<img src="{{ asset('storage/image/' . $cat->image_path) }}">
-                      　　　　@endif
-                      　　</div>
+                        　<div class="image col-md-6 text-right mt-4">
+                               @if ($cat->image_path)
+                                    <img src="{{ $cat->image_path }}">
+                               @endif
+                          </div>
                       　</td>
                     </tr>
                   {{ csrf_field() }}

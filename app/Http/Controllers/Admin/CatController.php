@@ -13,8 +13,8 @@ use App\Cathistory;
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-// //imageの保存をS3になるよう変更
-// use Storage;
+//imageの保存をS3になるよう変更
+use Storage;
 
 class CatController extends Controller
 {
@@ -65,22 +65,13 @@ class CatController extends Controller
         $cat = new Cat;
         $form = $request->all();
         
-        // formに画像があれば、保存する
+        // formに画像があれば、S3へ保存する
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $cat->image_path = basename($path);//画像名のみ保存するbasenameメソッド
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $cat->image_path = Storage::disk('s3')->url($path);
         } else {
             $cat->image_path = null;
         }
-        // // formに画像があれば、S3へ保存する
-        // if (isset($form['image'])) {
-        //     $path = $request->file('image')->store('public/image');
-        //     $cats->image_path = basename($path);
-        // // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-        //     // $cat->image_path = Storage::disk('s3')->url($path);
-        // } else {
-        //     $cat->image_path = null;
-        // }
     
         //フォームから送信された使用済トークンの削除
         unset($form['_token']);
@@ -128,11 +119,9 @@ class CatController extends Controller
             $cat_form['image_path'] = null;
         } elseif ($request->file('image')) {
             //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入//
-            $path = $request->file('image')->store('public/image');
-            $cat->image_path = basename($path);
-        // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            // //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
-            // $cat->image_path = Storage::disk('s3')->url($path);
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
+            $cat->image_path = Storage::disk('s3')->url($path);
         } else {
             $cat_form['image_path'] = $cat->image_path;
         }

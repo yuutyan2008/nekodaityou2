@@ -14,8 +14,8 @@ use App\Activity;
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-// //imageの保存をS3になるよう変更
-// use Storage;
+//imageの保存をS3になるよう変更
+use Storage;
 
 class ActivityController extends Controller
 {
@@ -44,8 +44,8 @@ class ActivityController extends Controller
        
         // formに画像があれば、保存する
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $activity->image_path = basename($path);//画像名のみ保存するbasenameメソッドを用いて$activity->image_pathに画像のパスを保存
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $activity->image_path = Storage::disk('s3')->url($path);
         } else {
             $activity->image_path = null;
         }

@@ -37,10 +37,9 @@
                           <td>{{str_limit($activity->content, 20)}}</td>
                           <td>
                             <div class="image col-md-6 text-right mt-4">
-                                 @if ($activity->image_path)
-                                    <!--保存した画像のパスからURLを生成-->
-                                    <img src="{{ asset('storage/image/' . $activity->image_path) }}">
-                                 @endif
+                               @if ($activity->image_path)
+                                    <img src="{{ $activity->image_path }}">
+                               @endif
                             </div>
                           </td>
                       </tr>

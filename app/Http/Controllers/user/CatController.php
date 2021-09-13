@@ -19,8 +19,8 @@ use App\User;
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
-// //imageの保存をS3になるよう変更
-// use Storage;
+//imageの保存をS3になるよう変更
+use Storage;
 
 //クラスの定義
 class CatController extends Controller
@@ -43,14 +43,14 @@ class CatController extends Controller
         
         $form = $request->all();
     
-        // formに画像があれば、保存する
+        // formに画像があれば、S3へ保存する
         if (isset($form['image'])) {
-            $path = $request->file('image')->store('public/image');//fileメソッドにはinputタグのname属性、storeメソッドには画像のパスを指定
-            $cat->image_path = basename($path);//画像ファイル名のみ保存するbasenameメソッドで、パスではなくファイル名でテーブルに保存
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $cat->image_path = Storage::disk('s3')->url($path);
         } else {
             $cat->image_path = null;
         }
-    
+        
         //フォームから送信された使用済トークンの削除
         unset($form['_token']);
         
@@ -139,7 +139,6 @@ class CatController extends Controller
         // //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = Cat::where('user_id', auth()->user()->id)->get();
         
-        
         //Carbon:日付操作ライブラリで現在時刻を取得し、 updated_at として記録
         // $cat->updated_at = Carbon::now();
         
@@ -191,14 +190,13 @@ class CatController extends Controller
             $cat_form['image_path'] = null;//更新時の削除をする場合。userが保存した画像$cat_form['image_path']を削除
         } elseif ($request->file('image')) {//新しい画像に変更する場合
             //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入
-            $path = $request->file('image')->store('public/image');
-            $cat_form['image_path'] = basename($path);//basename()でファイル名だけ取得し,image_pathカラムに代入
+            // $path = $request->file('image')->store('public/image');
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            // $cat_form['image_path'] = basename($path);//basename()でファイル名だけ取得し,image_pathカラムに代入
+            $cat->image_path = Storage::disk('s3')->url($path);
         } else {                            //更新以外（変更なし）の場合
             $cat_form['image_path'] = $cat->image_path;//DBから取得したimage_pathカラムの値(ファイル名)を、そのまま新フォームに入れる
         }
-        // $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-        // //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
-        // $cat->image_path = Storage::disk('s3')->url($path);
         
         //unsetメソッドで、取得したフォームデータから必要のないtokenを削除する
         unset($cat_form['_token']);

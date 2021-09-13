@@ -136,11 +136,12 @@
                         <td>{{str_limit($cat->area, 20)}}</td>
                         <td>{{str_limit($cat->attention, 30)}}</td>
                         <td>{{str_limit($cat->remarks, 20)}}</td>
-                        @if ($cat->image_path)
-                          <td><img src="{{ $cat->image_path }}">
-                        @endif
+                        　<div class="image col-md-6 text-right mt-4">
+                               @if ($cat->image_path)
+                                    <img src="{{ $cat->image_path }}">
+                               @endif
+                          </div>
                     </tr>
-
                 @endforeach
             </tbody>
         </table>

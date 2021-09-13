@@ -32,11 +32,10 @@
                       <td>{{str_limit($a->title, 20)}}</td>
                       <td>{{str_limit($a->content, 20)}}</td>
                       <td>
-                        <div class="image col-md-6 text-right mt-4">
-                           @if ($a->image_path)
-                            <!--ファイルの場所と、ファイル名を結合-->
-                            <img src="{{ asset('storage/image/' . $a->image_path) }}">
-                           @endif
+                      　<div class="image col-md-6 text-right mt-4">
+                             @if ($a->image_path)
+                                  <img src="{{ $a->image_path }}">
+                             @endif
                         </div>
                       </td>
                       <td>
