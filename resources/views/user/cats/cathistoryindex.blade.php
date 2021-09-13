@@ -1,4 +1,4 @@
-  
+
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
 @extends('layouts.front')
 <!--titleセクション猫台帳編集画面を表示-->
@@ -49,8 +49,8 @@
                             <td>{{str_limit($c->remarks, 20)}}</td>
                             <td>
                               <div class="image col-md-6 text-right mt-4">
-                                @if ($cat->image_path)
-                                　<img src="{{ asset('storage/image/' . $cat->image_path) }}">
+                                @if ($c->image_path)
+                                　<img src="{{ asset('storage/image/' . $c->image_path) }}">
                           　　　　@endif
                           　　</div>
                           　</td>

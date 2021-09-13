@@ -108,7 +108,6 @@
         <table class="table table-striped">
           <thead>
               <tr>
-                  <th width="5%">クリックして選択</th>
                   <th width="5%">更新日</th>
                   <th width="5%">猫の名前</th>
                   <th width="5%">しっぽの長さ</th>
@@ -134,14 +133,13 @@
                         <td>{{str_limit($cat->area, 20)}}</td>
                         <td>{{str_limit($cat->attention, 30)}}</td>
                         <td>{{str_limit($cat->remarks, 20)}}</td>
-
-                          <td>
-                            <div class="image col-md-6 text-right mt-4">
-                              @if ($cat->image_path)
-                              　<img src="{{ asset('storage/image/' . $cat->image_path) }}">
-                        　　　　@endif
-                        　　</div>
-                        　</td>
+                        <td>
+                          <div class="image col-md-6 text-right mt-4">
+                            @if ($cat->image_path)
+                            　<img src="{{ asset('storage/image/' . $cat->image_path) }}">
+                      　　　　@endif
+                      　　</div>
+                      　</td>
                     </tr>
                   {{ csrf_field() }}
                @endforeach

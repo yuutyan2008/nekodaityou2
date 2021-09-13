@@ -36,7 +36,7 @@
           </div>
           <div class="form-group row">
               <label class="col-md-2" for="hair">毛色と模様</label>
-                <select name="tail" class="custom-select">
+                <select name="hair" class="custom-select">
                   <option value = "" selected>選んでください</option>
                   <option value ="茶トラ" @if($cat_form->hair=== '茶トラ') selected='selected' @endif>茶トラ</option>
                   <option value ="茶白" @if($cat_form->hair=== '茶白') selected='selected' @endif>茶白</option>
