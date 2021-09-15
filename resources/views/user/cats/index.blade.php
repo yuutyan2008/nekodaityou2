@@ -37,10 +37,10 @@
 
             </div>
             <div class="form-group col-md-5">
-                <label for="hair">毛の模様</label>
+                <label for="hair">毛色と模様</label>
 
                     <select class="custom-select">
-                        <option selected>毛の模様を選んでください</option>
+                        <option selected>毛色と模様を選んでください</option>
                         <option value="茶トラ">茶トラ</option>
                         <option value="茶白">茶白</option>
                         <option value="黒">黒</option>

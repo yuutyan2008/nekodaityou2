@@ -12,6 +12,7 @@ use Illuminate\Validation\Rule;
 use Validator;
 
 use App\Cat;
+use App\User;
 
 //Cathistory modelを使用
 use App\Cathistory;

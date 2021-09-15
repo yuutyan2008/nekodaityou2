@@ -13,7 +13,10 @@
     </div>
   </div>
 　　<!--検索フォーム-->
-          <div class="form row">
+    <div class="form row">
+　　　<div class="col-md-12">
+  　　　　<!--indexアクションを呼び出すためのURLを、formタグのactionがgetメソッドで-->
+  　　　　<form action="{{ action('Admin\CatController@index') }}" method="get"><div class="form row">
             <div class="form-group col-md-6">
             　<label class="col-md-2">猫の名前</label>
               　<div class="col-md-5">
@@ -32,10 +35,10 @@
 
           </div>
           <div class="form-group col-md-5">
-              <label for="hair">毛の模様</label>
+              <label for="hair">毛色と模様</label>
 
                   <select class="custom-select">
-                      <option selected>毛の模様を選んでください</option>
+                      <option selected>毛色と模様を選んでください</option>
                       <option value="茶トラ">茶トラ</option>
                       <option value="茶白">茶白</option>
                       <option value="黒">黒</option>
@@ -97,8 +100,8 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th width="5%">クリックして選択</th>
                     <th width="5%">更新日</th>
+                    <!--<th width="5%"></th>-->
                     <th width="5%">猫の名前</th>
                     <th width="5%">しっぽの長さ</th>
                     <th width="5%">毛の模様</th>
