@@ -13,10 +13,6 @@
     </div>
   </div>
 　　<!--検索フォーム-->
-  <div class="row">
-    <div class="col-md-12">
-      <!--フォームの送信先を指定-->
-      <form action="{{ route('get.cats.index')}}" method="post" enctype="multipart/form-data">
           <div class="form row">
             <div class="form-group col-md-6">
             　<label class="col-md-2">猫の名前</label>
@@ -134,19 +130,17 @@
                                      @endif
                                 </div>
                             　</td>
+                                <td>
+                                  {{ csrf_field() }}
                               <td>
                                 <div>
-                                    <a href="{{ route('admin.cats.edit', ['id' => $cat->id]) }}">編集</a>
-                                </div>  
+                                  <a href ="{{ route('admin.cats.edit', ['id' => $cat->id]) }}">編集</a>
+                                </div>                          
                               </td>
                           </tr>
-      
                       @endforeach
                   </tbody>
               </table>
             </div>
           </div>
-      </form>
-    </div>
-  </div>
 @endsection

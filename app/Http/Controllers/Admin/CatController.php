@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+//バリデーションルールで実行されるクエリをカスタマイズする場合は
+use Illuminate\Validation\Rule;
+
+//Validatorの使用
+use Validator;
+
 use App\Cat;
 
 //Cathistory modelを使用
@@ -102,15 +108,24 @@ class CatController extends Controller
     //編集画面から送信されたフォームデータを処理
     public function update(Request $request)
     {
-        /*
-         Validationをかける.
-         第1引数に$requestとすると様々な値をチェックできる。
-         第２引数ModelのCatクラスの$rulesメソッド(validationのルールをまとめたもの)にアクセスしたい
-        */
-        $this->validate($request, Cat::$update_rules);
-        
-        //findメソッドを使用して主キーのidからCatテーブルレコードを抽出する
+        //modelのfindメソッドで、更新するCat modelを取得し、編集前のデータが入った$requestの中のidプロパティに該当するレコードをDBより取得
         $cat = Cat::find($request->id);
+        
+        //バリデータにcatIDを無視するように指示
+        Validator::make($request->all(), [
+            'name' => [
+                'required',
+                Rule::unique('cats')->ignore($cat->id),
+            ],
+            'hair' => [
+                'required',
+                Rule::unique('cats')->ignore($cat->id),
+            ],
+            'area' => [
+                'required',
+                Rule::unique('cats')->ignore($cat->id),
+            ],
+        ]);
         
         // 送信されてきたフォームデータを$cat_formに格納する
         $cat_form = $request->all();
@@ -134,6 +149,6 @@ class CatController extends Controller
         $cat->fill($cat_form)->save();
 
         
-        return redirect('admin/cats');
+        return redirect('admin/cats/index');
     }
 }

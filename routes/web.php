@@ -86,8 +86,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     
     // Route::post('home', 'Admin\UserController@index')->name('admin.user.index');//home画面の会員情報参照ボタンから一覧表示へ
     Route::get('user/index', 'Admin\UserController@index');//会員一覧画面表示
-    Route::get('user/edit', 'Admin\UserController@edit');//会員情報一覧の編集ボタンを押す1とidを渡して編集画面へ
-    Route::post('user/edit', 'Admin\UserController@update');//会員情報編集画面の編集ボタンを押すとidを渡して確認画面へ
+    // Route::get('user/edit', 'Admin\UserController@edit');//会員情報一覧の編集ボタンを押す1とidを渡して編集画面へ
+    // Route::post('user/edit', 'Admin\UserController@update');//会員情報編集画面の編集ボタンを押すとidを渡して確認画面へ
     
     
     Route::get('cats/create', 'Admin\CatController@add');//フォームに入力するとaddアクションへ
@@ -95,5 +95,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('cats/index', 'Admin\CatController@index')->name('get.cats.index');//猫台帳一覧画面の表示
     
     Route::get('cats/edit', 'Admin\CatController@edit')->name('admin.cats.edit');//編集したい猫台帳の表示
-    Route::post('cats/edit', 'Admin\CatController@update');//編集画面の更新ボタンを押すとidを渡して更新
+    Route::post('cats/edit', 'Admin\CatController@update')->name('admin.cats.update');//編集画面の更新ボタンを押すとidを渡して更新
 });

@@ -10,7 +10,7 @@
       <div class="col-md-12">
         <h2>猫台帳の編集</h2>
         <!--フォームの送信先を指定-->
-        <form action="{{ route('admin.cats.edit') }}" method="get" enctype="multipart/form-data">
+        <form action="{{ route('admin.cats.update') }}" method="post" enctype="multipart/form-data">
           <!--$errors~validationで弾かれた内容が記憶された配列~の数があるなら-->
           @if (count($errors) > 0)
             <ul>

@@ -35,11 +35,6 @@
                         <td>{{str_limit($user->name, 20)}}</td>
                         <td>{{str_limit($user->belonging, 20)}}</td>
                         <td>{{str_limit($user->email, 20)}}</td>
-                        <td>
-                          <div>
-                              <a href="{{ action('Admin\UserController@edit', ['id' => $user->id]) }}">編集</a>
-                          </div>                          
-                        </td>
                     </tr>
                 @endforeach
             </tbody>
