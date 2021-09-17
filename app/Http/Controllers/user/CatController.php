@@ -37,7 +37,6 @@ class CatController extends Controller
             'name' => 'required_with_all | unique:cats',
             'hair' => 'required_with_all',
             'area' => 'required_with_all',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         
         //データを新規作成。newはCatモデルからインスタンス（レコード）を生成するメソッド
