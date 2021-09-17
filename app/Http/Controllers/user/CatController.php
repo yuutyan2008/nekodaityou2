@@ -5,6 +5,7 @@ namespace App\Http\Controllers\user;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use InterventionImage;//画像リサイズ
 
 //バリデーションルールで実行されるクエリをカスタマイズする場合は
 use Illuminate\Validation\Rule;
@@ -36,6 +37,7 @@ class CatController extends Controller
             'name' => 'required_with_all | unique:cats',
             'hair' => 'required_with_all',
             'area' => 'required_with_all',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         
         //データを新規作成。newはCatモデルからインスタンス（レコード）を生成するメソッド
