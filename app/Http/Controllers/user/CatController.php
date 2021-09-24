@@ -37,8 +37,9 @@ class CatController extends Controller
         // dd($request->all());//入力データを配列として受け取る
         //実行したいvalidationルールをvalidateメソッドに渡す
         $request->validate([
-            'title' => 'required_with_all',
-            'content' => 'required_with_all',
+            'name' => 'required_with_all | unique:cats',
+            'hair' => 'required_with_all',
+            'area' => 'required_with_all',
         ]);
         
         //データを新規作成。newはCatモデルからインスタンス（レコード）を生成するメソッド
