@@ -5,7 +5,10 @@ namespace App\Http\Controllers\user;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+//InterventionImageの利用
+use App\Http\Requests;
 use InterventionImage;//画像リサイズ
+use Image;
 
 //バリデーションルールで実行されるクエリをカスタマイズする場合は
 use Illuminate\Validation\Rule;
@@ -34,15 +37,19 @@ class CatController extends Controller
         // dd($request->all());//入力データを配列として受け取る
         //実行したいvalidationルールをvalidateメソッドに渡す
         $request->validate([
-            'name' => 'required_with_all | unique:cats',
-            'hair' => 'required_with_all',
-            'area' => 'required_with_all',
+            'title' => 'required_with_all',
+            'content' => 'required_with_all',
         ]);
         
         //データを新規作成。newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
         
         $form = $request->all();
+
+        //送信されたリクエストの完全な画像ファイルを取得する
+        $image = $request->file('image');
+        //リサイズする
+        InterventionImage::make($image)->fit(300, 200)->save();
     
         // formに画像があれば、S3へ保存する
         if (isset($form['image'])) {
@@ -190,9 +197,10 @@ class CatController extends Controller
         if ($request->remove == 'true') {
             $cat_form['image_path'] = null;//更新時の削除をする場合。userが保存した画像$cat_form['image_path']を削除
         } elseif ($request->file('image')) {//新しい画像に変更する場合
-            //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入
-            // $path = $request->file('image')->store('public/image');
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');//ファイルをpublicファイルとして更新
+            //リサイズする
+            InterventionImage::make($request->file('image'))->fit(300, 200)->save();
+          
+            $path = Storage::disk('s3')->putFile('/', $cat_form['image'], 'public');//保存先パス、ファイル名、ファイルにつける名前
             // $cat_form['image_path'] = basename($path);//basename()でファイル名だけ取得し,image_pathカラムに代入
             $cat->image_path = Storage::disk('s3')->url($path);
         } else {                            //更新以外（変更なし）の場合

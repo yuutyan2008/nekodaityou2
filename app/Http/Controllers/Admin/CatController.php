@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+//InterventionImageの利用
+use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 //バリデーションルールで実行されるクエリをカスタマイズする場合は
@@ -22,6 +24,9 @@ use Carbon\Carbon;
 
 //imageの保存をS3になるよう変更
 use Storage;
+//画像リサイズするパッケージの利用
+use InterventionImage;
+use Image;
 
 class CatController extends Controller
 {
@@ -75,10 +80,15 @@ class CatController extends Controller
             'hair' => 'required_with_all',
             'area' => 'required_with_all',
         ]);
-        
+
         //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
         $form = $request->all();
+        
+        //送信されたリクエストの完全な画像ファイルを取得する
+        $image = $request->file('image');
+        //リサイズする
+        InterventionImage::make($image)->fit(300, 200)->save();
         
         // formに画像があれば、S3へ保存する
         if (isset($form['image'])) {
@@ -138,12 +148,19 @@ class CatController extends Controller
         
         // 送信されてきたフォームデータを$cat_formに格納する
         $cat_form = $request->all();
-      
+        
+        //送信されたリクエストの完全な画像ファイルを取得する
+        $image = $request->file('image');
+ 
+        
         if ($request->remove == 'true') {
             $cat_form['image_path'] = null;
         } elseif ($request->file('image')) {
+            //リサイズする
+            InterventionImage::make($image)->fit(300, 200)->save();
+            
             //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入//
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $path = Storage::disk('s3')->putFile('/', $cat_form['image'], 'public');
             //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
             $cat->image_path = Storage::disk('s3')->url($path);
         } else {

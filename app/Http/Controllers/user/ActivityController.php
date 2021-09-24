@@ -7,15 +7,17 @@ use App\Http\Controllers\Controller;
 //Authクラスを使用
 use Auth;
 use User;
-
 use App\Activity;
-
 
 //時刻を扱うために Carbonという日付操作ライブラリを使う
 use Carbon\Carbon;
 
 //imageの保存をS3になるよう変更
 use Storage;
+//InterventionImageの利用
+use App\Http\Requests;
+use InterventionImage;//画像リサイズ
+use Image;
 
 class ActivityController extends Controller
 {
@@ -29,10 +31,13 @@ class ActivityController extends Controller
     //入力した文字をDBに保存する
     public function create(Request $request)
     {
-
-      // Varidationを行う。activityディレクトリの$rules変数を呼び出す
-        $this->validate($request, activity::$rules);
         
+        // dd($request->all());//入力データを配列として受け取る
+        //実行したいvalidationルールをvalidateメソッドに渡す
+        $request->validate([
+            'title' => 'required_with_all',
+            'content' => 'required_with_all',
+        ]);
         // activityクラスのインスタンス作成
         $activity = new Activity;
         
@@ -41,7 +46,11 @@ class ActivityController extends Controller
         $activity->user_id = Auth::id();
         
         $form = $request->all();
-       
+
+        //送信されたリクエストの完全な画像ファイルを取得する
+        $image = $request->file('image');
+        //リサイズする
+        InterventionImage::make($image)->fit(300, 200)->save();
         // formに画像があれば、保存する
         if (isset($form['image'])) {
             $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
@@ -127,22 +136,11 @@ class ActivityController extends Controller
         $activity = new Activity;
         $activity = Activity::where('user_id', auth()->user()->id)->get()->sortByDesc('updated_at');
         
-        if (count($activity) > 0) {
-            /* shift:配列の最初のデータを削除し、その値を返すメソッド
-              削除した最新データを$headline（最新の投稿を格納）に代入
-              $posts（最新投稿以外を格納）
-              最新とそれ以外で表記を変えたいため
-            */
-            $headline = $activity->shift();
-        } else {
-            $headline = null;
-        }
-        
         /*
           index.blade.phpのファイルに取得したレコード（$activity）を渡し、ページを開く
           view(ファイル名, 使いたい配列)
         */
-        return view('user.activity.historyindex', ['headline' => $headline, 'activity' => $activity]);
+        return view('user.activity.historyindex', ['activity' => $activity]);
     }
     
     // // 編集画面の処理
