@@ -192,7 +192,7 @@ class CatController extends Controller
         } elseif ($request->file('image')) {//新しい画像に変更する場合
             //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入
             // $path = $request->file('image')->store('public/image');
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
+            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');//ファイルをpublicファイルとして更新
             // $cat_form['image_path'] = basename($path);//basename()でファイル名だけ取得し,image_pathカラムに代入
             $cat->image_path = Storage::disk('s3')->url($path);
         } else {                            //更新以外（変更なし）の場合

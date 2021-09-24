@@ -65,8 +65,16 @@ class CatController extends Controller
     //入力した文字をDBに保存する
     public function create(Request $request)
     {
-        //controllerのVaridationメソッドを呼び出す。Catディレクトリの$rules変数を検証する
-        $this->validate($request, Cat::$rules);
+        // //controllerのVaridationメソッドを呼び出す。Catディレクトリの$rules変数を検証する
+        // $this->validate($request, Cat::$rules);
+        
+        // dd($request->all());//入力データを配列として受け取る
+        //実行したいvalidationルールをvalidateメソッドに渡す
+        $request->validate([
+            'name' => 'required_with_all | unique:cats',
+            'hair' => 'required_with_all',
+            'area' => 'required_with_all',
+        ]);
         
         //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
