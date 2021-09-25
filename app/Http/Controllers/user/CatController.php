@@ -15,9 +15,7 @@ use Illuminate\Validation\Rule;
 
 //Validatorの使用
 use Validator;
-
 use App\Cat;
-
 use App\User;
 
 //時刻を扱うために Carbonという日付操作ライブラリを使う
