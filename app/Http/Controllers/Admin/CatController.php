@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 
 //バリデーションルールで実行されるクエリをカスタマイズする場合は
 use Illuminate\Validation\Rule;
-
 //Validatorの使用
 use Validator;
 
