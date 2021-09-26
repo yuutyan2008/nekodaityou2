@@ -1,4 +1,4 @@
-<?php phpinfo(); ?> 
+<!--<?php phpinfo(); ?> -->
 <!--レイアウトの継承設定。親ファイルディレクトリ名 . ファイル名-->
 @extends('layouts.front')
 <!--titleセクションに猫台帳の新規作成を表示
