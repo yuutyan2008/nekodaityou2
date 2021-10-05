@@ -62,5 +62,9 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "require": {
+    "ext-gd": "*"
     }
+
 }
