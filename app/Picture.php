@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class picture extends Model
+class Picture extends Model
 {
 
     //catとpictureは1対多の関係
