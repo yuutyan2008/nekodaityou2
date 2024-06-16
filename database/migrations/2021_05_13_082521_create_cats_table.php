@@ -1,14 +1,16 @@
 
 <?php
-
+//クラスをインポートし使えるようにする
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+//migration機能
 use Illuminate\Database\Migrations\Migration;
 
 class CreateCatsTable extends Migration
 {
     /**
      * Run the migrations.
+     *テーブル作成、カラム追加を行うup()
      *
      * @return void
      */

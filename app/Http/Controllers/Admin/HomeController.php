@@ -9,7 +9,8 @@ class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     * コンストラクタでmiddlewareを呼び出している。
+     * authミドルウェアがユーザー認証を行う
+     * コンストラクタで指定することで全てのメソッドに適用される
      * @return void
      */
     public function __construct()
@@ -24,6 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.home');  //ログイン認証
+        return view('admin.home');  //viewメソッド管理で者ホームページに移動
     }
 }
