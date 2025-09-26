@@ -83,16 +83,13 @@ class CatController extends Controller
         //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
         $form = $request->all();
-        
-        //送信されたリクエストの完全な画像ファイルを取得する
-        $image = $request->file('image');
-        //リサイズする
-        InterventionImage::make($image)->fit(300, 200)->save();
-        
-        // formに画像があれば、S3へ保存する
-        if (isset($form['image'])) {
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $cat->image_path = Storage::disk('s3')->url($path);
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            InterventionImage::make($image)->fit(300, 200)->save();
+
+            $path = Storage::disk('public')->putFile('/', $image, 'public');
+            $cat->image_path = Storage::disk('public')->url($path);
         } else {
             $cat->image_path = null;
         }
@@ -154,14 +151,11 @@ class CatController extends Controller
         
         if ($request->remove == 'true') {
             $cat_form['image_path'] = null;
-        } elseif ($request->file('image')) {
-            //リサイズする
+        } elseif ($request->hasFile('image')) {
             InterventionImage::make($image)->fit(300, 200)->save();
-            
-            //画像の取得から保存までの場所$pathを定義し、public/imageディレクトリに保存できたら$pathに代入//
-            $path = Storage::disk('s3')->putFile('/', $cat_form['image'], 'public');
-            //$pathの経路public/imageディレクトリを削除し、ファイル名だけをフォームに入力
-            $cat->image_path = Storage::disk('s3')->url($path);
+
+            $path = Storage::disk('public')->putFile('/', $request->file('image'), 'public');
+            $cat->image_path = Storage::disk('public')->url($path);
         } else {
             $cat_form['image_path'] = $cat->image_path;
         }

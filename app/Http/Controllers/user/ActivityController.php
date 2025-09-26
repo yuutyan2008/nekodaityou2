@@ -47,14 +47,13 @@ class ActivityController extends Controller
         
         $form = $request->all();
 
-        //送信されたリクエストの完全な画像ファイルを取得する
-        $image = $request->file('image');
-        //リサイズする
-        InterventionImage::make($image)->fit(300, 200)->save();
-        // formに画像があれば、保存する
-        if (isset($form['image'])) {
-            $path = Storage::disk('s3')->putFile('/', $form['image'], 'public');
-            $activity->image_path = Storage::disk('s3')->url($path);
+        //送信された画像がある場合のみリサイズ・保存する
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            InterventionImage::make($image)->fit(300, 200)->save();
+
+            $path = Storage::disk('public')->putFile('/', $image, 'public');
+            $activity->image_path = Storage::disk('public')->url($path);
         } else {
             $activity->image_path = null;
         }

@@ -5,7 +5,7 @@
 @section('title', '自分の猫台帳')
 
 @section('content')
-  <div class="container-fluid">
+  <div class="container">
     <div class="row">
       <div class="col-md-12">
         <h2>自分の猫台帳</h2>
@@ -48,17 +48,14 @@
                             <td>{{str_limit($c->attention, 30)}}</td>
                             <td>{{str_limit($c->remarks, 20)}}</td>
                             <td>
-                            　<div class="image col-md-6 text-right mt-4">
-                                   @if ($c->image_path)
-                                        <img src="{{ $c->image_path }}">
-                                   @endif
-                              </div>
-                          　</td>
-                            {{ csrf_field() }}
-                            <td>
-                              <div>
-                                <a href ="{{ route('cats.cathistoryedit', ['id' => $c->id]) }}">編集</a>
-                              </div>                          
+                                <div class="image col-md-6 text-right mt-4">
+                                    @if ($c->image_path)
+                                        <img src="{{ $c->image_path }}" class="img-fluid rounded">
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="align-middle text-center">
+                                <a href="{{ route('cats.cathistoryedit', ['id' => $c->id]) }}" class="btn btn-outline-primary btn-sm">編集</a>
                             </td>
                         </tr>
                     @endforeach
