@@ -47,7 +47,7 @@ class UserController extends Controller
     //     $user = User::find($request->id);
         
     //     //バリデータにuserIDを無視するように指示
-    //     Validator::make($request->all(), [
+    //     Validator::make($request->only(['...']), [
     //         'name' => [
     //             'required',
     //             Rule::unique('users')->ignore($user->id),
@@ -63,7 +63,7 @@ class UserController extends Controller
     //     ]);
         
     //     // 送信されてきたフォームデータを$user_formに格納する
-    //     $user_form = $request->all();
+    //     $user_form = $request->only(['...']);
       
     //     //user_formから送信されてきた不要な[ ]を削除するメソッドunset
     //     unset($user_form['_token']);

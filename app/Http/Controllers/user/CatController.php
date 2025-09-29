@@ -27,12 +27,17 @@ use Storage;
 //クラスの定義
 class CatController extends Controller
 {
+    //登録画面表示
+    public function add()
+    {
+        return view('user.cats.create');
+    }
 
     //入力した文字をDBに保存する
     public function create(Request $request)
     {
 
-        // dd($request->all());//入力データを配列として受け取る
+
         //実行したいvalidationルールをvalidateメソッドに渡す
         $request->validate([
             'name' => 'required_with_all | unique:cats',
@@ -43,26 +48,25 @@ class CatController extends Controller
         //データを新規作成。newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = new Cat;
 
-        $form = $request->all();
+        $form = $request->only([
+            'name',
+            'tail',
+            'hair',
+            'gender',
+            'area',
+            'attention',
+            'remarks',
+        ]);
 
-        //送信されたリクエストの完全な画像ファイルを取得する
-        $image = $request->file('image');
-        //リサイズする
-        InterventionImage::make($image)->fit(300, 200)->save();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            InterventionImage::make($image)->fit(300, 200)->save();
 
-        // formに画像があれば、公開ディスクに保存する
-        if (isset($form['image'])) {
-            $path = Storage::disk('public')->putFile('/', $form['image'], 'public');
+            $path = Storage::disk('public')->putFile('/', $image, 'public');
             $cat->image_path = Storage::disk('public')->url($path);
         } else {
             $cat->image_path = null;
         }
-
-        //フォームから送信された使用済トークンの削除
-        unset($form['_token']);
-
-        //フォームから送信された保存済画像の削除
-        unset($form['image']);
 
         // dd($path);
         //ログインuserのidを取得して、DBに保存時catテーブルにuser_idを代入して一緒に保存
@@ -73,11 +77,6 @@ class CatController extends Controller
         return view('user.cats.create');
     }
 
-    //フォームに入力する
-    public function add()
-    {
-        return view('user.cats.create');
-    }
 
     //猫台帳検索、一覧表示
     public function index(Request $request)
@@ -95,7 +94,7 @@ class CatController extends Controller
 
         // 各条件が指定されていれば順に絞り込み
         if (!empty($name)) {
-            $query->where('name', 'like', '%' . $name . '%');
+            $query->where('name', 'like', '%' . $name . '%'); //部分一致検索
         }
         if (!empty($tail)) {
             $query->where('tail', $tail);
@@ -119,7 +118,7 @@ class CatController extends Controller
         // 並び替え後のレコードを取得
         $cats = $query->get();
 
-        // ビュー用に検索条件をまとめる
+        // 結果表示のため、検索フォームの入力値をまとめる
         $filters = [
             'name' => $name,
             'tail' => $tail,
@@ -148,7 +147,7 @@ class CatController extends Controller
     //自分の猫台帳の表示
     public function cathistoryindex(Request $request)
     {
-        // //newはCatモデルからインスタンス（レコード）を生成するメソッド
+        //newはCatモデルからインスタンス（レコード）を生成するメソッド
         $cat = Cat::where('user_id', auth()->user()->id)->get();
 
         //Carbon:日付操作ライブラリで現在時刻を取得し、 updated_at として記録
@@ -177,8 +176,12 @@ class CatController extends Controller
         //modelのfindメソッドで、更新するCat modelを取得し、編集前のデータが入った$requestの中のidプロパティに該当するレコードをDBより取得
         $cat = Cat::find($request->id);
 
-        //バリデータにcatIDを無視するように指示
-        Validator::make($request->all(), [
+        //バリデータに自身のcatIDを無視するように指示
+        Validator::make($request->only([
+            'name',
+            'hair',
+            'area',
+        ]), [
             'name' => [
                 'required',
                 Rule::unique('cats')->ignore($cat->id),
@@ -194,27 +197,29 @@ class CatController extends Controller
         ]);
 
         // 編集後のデータが入った$requestのデータ全てを$cat_formに格納する
-        $cat_form = $request->all();
+        $cat_form = $request->only([
+            'name',
+            'tail',
+            'hair',
+            'gender',
+            'area',
+            'attention',
+            'remarks',
+        ]);
 
         // dd($cat_form);
         //画像の変更、削除設定
         if ($request->remove == 'true') {
-            $cat_form['image_path'] = null; //更新時の削除をする場合。userが保存した画像$cat_form['image_path']を削除
-        } elseif ($request->file('image')) { //新しい画像に変更する場合
-            //リサイズする
-            InterventionImage::make($request->file('image'))->fit(300, 200)->save();
+            $cat_form['image_path'] = null; // 更新時の削除をする場合。userが保存した画像$cat_form['image_path']を削除
+        } elseif ($request->hasFile('image')) { // 新しい画像に変更する場合
+            $newImage = $request->file('image');
+            InterventionImage::make($newImage)->fit(300, 200)->save();
 
-            $path = Storage::disk('public')->putFile('/', $cat_form['image'], 'public'); //保存先パス、ファイル名、ファイルにつける名前
-            // $cat_form['image_path'] = basename($path);//basename()でファイル名だけ取得し,image_pathカラムに代入
-            $cat->image_path = Storage::disk('public')->url($path);
-        } else {                            //更新以外（変更なし）の場合
-            $cat_form['image_path'] = $cat->image_path; //DBから取得したimage_pathカラムの値(ファイル名)を、そのまま新フォームに入れる
+            $path = Storage::disk('public')->putFile('/', $newImage, 'public');
+            $cat_form['image_path'] = Storage::disk('public')->url($path);
+        } else { // 更新以外（変更なし）の場合
+            $cat_form['image_path'] = $cat->image_path; // DBから取得したimage_pathカラムの値(ファイル名)を、そのまま新フォームに入れる
         }
-
-        //unsetメソッドで、取得したフォームデータから必要のないtokenを削除する
-        unset($cat_form['_token']);
-        unset($cat_form['image']);
-        unset($cat_form['remove']);
 
         // 該当するデータを上書きして保存する
         $cat->fill($cat_form)->save();

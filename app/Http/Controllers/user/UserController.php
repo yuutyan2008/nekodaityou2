@@ -118,29 +118,25 @@ class ProfileController extends Controller
     {
         // Validationをかける
         $this->validate($request, Profile::$rules);
-      
+
         // Profile Modelからデータを取得する
         $profile = Profile::find($request->id);
-      
+
         // 送信されてきたフォームデータを格納する
-        $profile_form = $request->all();
-      
-        unset($profile_form['_token']);
-      
-     
+        $profile_form = $request->only(array_keys(Profile::$rules));
 
         // 該当するデータを上書きして保存する
         $profile->fill($profile_form)->save();
-      
+
         //ProfileHistory Modelにも編集履歴を追加
         $profilehistory = new ProfileHistory;
         $profilehistory->profile_id = $profile->id;
         $profilehistory->edited_at = Carbon::now();
         $profilehistory->save();
-        
+
         return redirect(sprintf("admin/profile/edit?id=%d", $profile->id));
     }
-      
+
     //userとサーバー間で相互情報のやりとりを管理するrequest/responceクラス
     public function create(Request $request)
     {
@@ -148,17 +144,12 @@ class ProfileController extends Controller
         $this->validate($request, Profile::$rules);
 
         $profile = new Profile;
-        $form = $request->all();
+        $form = $request->only(array_keys(Profile::$rules));
 
- 
-        unset($form['_token']);
-      
         // データベースに保存する
         $profile->fill($form);
         $profile->save();
 
-        
-        
         // admin/profile/createにリダイレクトする
         return redirect('admin/profile/create');
     }
