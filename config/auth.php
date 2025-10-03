@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'user',// マルチ認証の設定でwebからuserに変更
+        'guard' => 'user', // マルチ認証の設定でwebからuserに変更
         'passwords' => 'users',
     ],
 
@@ -34,20 +34,21 @@ return [
     | Supported: "session", "token"
     |
     */
-    
+
     //認証の方法
+    // Auth::guard(web~admin)でweb~admin(ガード名)を呼び出し
     'guards' => [
-        'web' => [
-            'driver' => 'session',//driverはguardの名前。リクエストごとの認証をsession(認証を保持)に選択
-            'provider' => 'users',//認証情報提供を行う者の指定　
+        'web' => [   //webガードは通常のユーザ認証
+            'driver' => 'session', //driverはguardの名前。リクエストごとの認証管理方法をsession(認証を保持)に選択
+            'provider' => 'users', //認証情報提供を行う者の指定　
         ],
- 
+
         'api' => [
-            'driver' => 'token',//ログイン認証の方式tの一つoken(おくされてきたtokenの検証のみ)
+            'driver' => 'token', //ログイン認証の方式の一つtoken(おくされてきたtokenの検証のみ)
             'provider' => 'users',
         ],
         'user' => [
-            'driver' => 'session',//ログイン認証の方式tの一つsession(情報が保持される)
+            'driver' => 'session', //ログイン認証の方式の一つsession(情報が保持される)
             'provider' => 'users',
         ],
         'admin' => [ //マルチ認証の設定
@@ -72,22 +73,22 @@ return [
     |
     */
 
-   'providers' => [
+    'providers' => [
         'users' => [
-            'driver' => 'eloquent',//デフォルトで用意しているApp/UserのAloquentモデルを、認証ドライバで使用
+            'driver' => 'eloquent', //デフォルトで用意しているApp/UserのAloquentモデルを、認証ドライバで使用
             'model' => App\User::class,
         ],
         'admins' => [ //マルチ認証の設定
             'driver' => 'eloquent', //マルチ認証の設定
             'model' => App\Admin::class, //マルチ認証の設定。model名をadminに設定
         ],
- 
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
     ],
- 
+
 
     /*
     |--------------------------------------------------------------------------
@@ -110,9 +111,9 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
-    
 
-    
+
+
         'admins' => [ //マルチ認証の設定
             'provider' => 'admins', //マルチ認証の設定
             'table' => 'password_resets', //マルチ認証の設定

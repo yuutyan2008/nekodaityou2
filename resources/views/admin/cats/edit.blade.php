@@ -1,6 +1,6 @@
   
 <!--レイアウトの継承設定。親ファイルディレクトリ名  ファイル名-->
-@extends('layouts.admin')
+@extends('layouts.app_admin')
 <!--titleセクション猫台帳編集画面を表示-->
 @section('title', '猫台帳の編集')
 
